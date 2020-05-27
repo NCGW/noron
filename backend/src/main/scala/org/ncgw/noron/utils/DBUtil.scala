@@ -5,7 +5,7 @@ import com.zaxxer.hikari.HikariDataSource
 import org.slf4j.LoggerFactory
 import slick.jdbc.MySQLProfile.api._
 import slick.util.AsyncExecutor
-import org.seekloud.noron.common.AppSettings._
+import org.ncgw.noron.common.AppSettings._
 
 /**
  * User: Taoz

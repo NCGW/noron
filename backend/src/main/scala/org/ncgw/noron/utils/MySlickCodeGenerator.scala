@@ -24,7 +24,7 @@ object MySlickCodeGenerator {
   val url = "jdbc:mysql://10.1.62.54:3306/guanwang20?characterEncoding=utf-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true"
 //  val url = "jdbc:mysql://192.168.0.250:6446/guanwang20?characterEncoding=utf-8&rewriteBatchedStatements=true&useSSL=false"
   val outputFolder = "target/gencode/genTablesPsql"
-  val pkg = "org.seekloud.noron.models"
+  val pkg = "org.ncgw.noron.models"
   val user = "leaf58"
   val password = "databasefortest20191105"
 

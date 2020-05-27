@@ -5,7 +5,7 @@ import akka.http.scaladsl.server
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import org.slf4j.LoggerFactory
-import org.seekloud.noron.protocols.ErrorRsp
+import org.ncgw.noron.protocols.ErrorRsp
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 

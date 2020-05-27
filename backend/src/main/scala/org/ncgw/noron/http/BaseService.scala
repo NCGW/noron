@@ -1,6 +1,6 @@
 /*
  *
- * Copyright 2018 seekloud (https://github.com/seekloud)
+ * Copyright 2018 ncgw (https://github.com/ncgw)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import akka.actor.{ActorSystem, Scheduler}
 import akka.stream.Materializer
 import akka.util.Timeout
 import org.ncgw.noron.utils.CirceSupport
-import org.seekloud.noron.utils.CirceSupport
+import org.ncgw.noron.utils.CirceSupport
 
 import scala.concurrent.ExecutionContextExecutor
 

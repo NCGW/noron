@@ -8,8 +8,8 @@ import akka.http.scaladsl.server.{Directive0, Directive1}
 import io.circe.syntax._
 import org.ncgw.noron.common.AppSettings
 import org.ncgw.noron.utils.{CirceSupport, SessionSupport}
-import org.seekloud.noron.common.AppSettings
-import org.seekloud.noron.utils.{CirceSupport, SessionSupport}
+import org.ncgw.noron.common.AppSettings
+import org.ncgw.noron.utils.{CirceSupport, SessionSupport}
 import org.slf4j.LoggerFactory
 
 /**
