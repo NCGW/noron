@@ -47,8 +47,8 @@ lazy val frontend = (project in file("frontend"))
     ))
   .settings(skip in packageJSDependencies := false)
   .settings(
-    scalaJSUseMainModuleInitializer := false,
-    mainClass := Some("org.ncgw.noron.front.Main"),
+    scalaJSUseMainModuleInitializer := true,
+//    mainClass := Some("org.ncgw.noron.front.Main"),
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core" % Dependencies.circeVersion,
       "io.circe" %%% "circe-generic" % Dependencies.circeVersion,

@@ -35,6 +35,8 @@ object Main extends PageSwitcher {
   }
 
 
-  def main(args: Array[String]): Unit = {}
+  def main(args: Array[String]): Unit = {
+    show()
+  }
 
 }
