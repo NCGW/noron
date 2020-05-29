@@ -1,6 +1,7 @@
 package org.ncgw.noron
 
 import mhtml.{mount, _}
+import org.ncgw.noron.pages.InputPage
 import org.scalajs.dom
 import org.ncgw.noron.utils.PageSwitcher
 
@@ -14,6 +15,12 @@ object Main extends PageSwitcher {
 
   private val currentPage = currentHashVar.map { ls =>
     println(s"currentPage change to ${ls.mkString(",")}")
+
+    ls match {
+      case _ =>
+        InputPage.app
+
+    }
 
   }
 
