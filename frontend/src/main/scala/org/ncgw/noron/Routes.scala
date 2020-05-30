@@ -5,5 +5,14 @@ package org.ncgw.noron
   */
 object Routes {
 
+  private val base = "/noron"
+
+  object ContentRoutes {
+
+    private val baseUrl = base + "/content"
+
+    val inputContent = baseUrl + "/inputContent"
+
+  }
 
 }
