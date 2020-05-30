@@ -18,15 +18,13 @@ object MySlickCodeGenerator {
 
   import concurrent.ExecutionContext.Implicits.global
 
-  val slickDriver = "slick.jdbc.MySQLProfile"
-  val jdbcDriver = "com.mysql.jdbc.Driver"
-//  val url = "jdbc:mysql://10.1.29.248:6446/guanwang20?characterEncoding=utf-8&rewriteBatchedStatements=true&useSSL=false"
-  val url = "jdbc:mysql://10.1.62.54:3306/guanwang20?characterEncoding=utf-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true"
-//  val url = "jdbc:mysql://192.168.0.250:6446/guanwang20?characterEncoding=utf-8&rewriteBatchedStatements=true&useSSL=false"
+  val slickProfile = "slick.jdbc.H2Profile"
+  val jdbcDriver = "org.h2.Driver"
+  val url = "jdbc:h2:file:./data/VideoMeeting"
   val outputFolder = "target/gencode/genTablesPsql"
   val pkg = "org.ncgw.noron.models"
-  val user = "leaf58"
-  val password = "databasefortest20191105"
+  val user = "noron"
+  val password = "1qaz@WSX"
 
 
   //val dbDriver = MySQLDriver
@@ -35,7 +33,7 @@ object MySlickCodeGenerator {
 
     // fetch data model
     val driver: JdbcProfile =
-      Class.forName(slickDriver + "$").getField("MODULE$").get(null).asInstanceOf[JdbcProfile]
+      Class.forName(slickProfile + "$").getField("MODULE$").get(null).asInstanceOf[JdbcProfile]
     val dbFactory = driver.api.Database
     val db = dbFactory.forURL(url, driver = jdbcDriver,
       user = user, password = password, keepAliveConnection = true)
@@ -76,7 +74,7 @@ object MySlickCodeGenerator {
 
     val codeGenerator = Await.result(codeGenFuture, Duration.Inf)
     codeGenerator.writeToFile(
-      slickDriver, outputFolder, pkg, "SlickTables", "SlickTables.scala"
+      slickProfile, outputFolder, pkg, "SlickTables", "SlickTables.scala"
     )
 
 
@@ -86,7 +84,7 @@ object MySlickCodeGenerator {
   def genDefaultTables() = {
 
     slick.codegen.SourceCodeGenerator.main(
-      Array(slickDriver, jdbcDriver, url, outputFolder, pkg, user, password)
+      Array(slickProfile, jdbcDriver, url, outputFolder, pkg, user, password)
     )
 
 
