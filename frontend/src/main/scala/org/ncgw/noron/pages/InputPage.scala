@@ -3,10 +3,11 @@ package org.ncgw.noron.pages
 import mhtml._
 import io.circe.generic.auto._
 import io.circe.syntax._
+import org.ncgw.norn.shared.CommonProtocol.{ContentInputReq, ContentInputRsp}
+
 import scala.language.postfixOps
 import org.ncgw.noron.utils.Http
 import org.ncgw.noron.Routes
-import org.ncgw.norn.shared.CommonProtocol.{ContentInputRsp, ContentInputReq}
 import concurrent.ExecutionContext.Implicits.global
 import org.scalajs.dom
 
