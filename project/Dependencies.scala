@@ -51,10 +51,6 @@ object Dependencies {
   val scalaXml = "org.scala-lang.modules" %% "scala-xml" % "1.0.6"
   val slick = "com.typesafe.slick" %% "slick" % slickV
   val slickCodeGen = "com.typesafe.slick" %% "slick-codegen" % slickV
-  //val scalikejdbc = "org.scalikejdbc" %% "scalikejdbc" % "2.5.0"
-  //val scalikejdbcConfig = "org.scalikejdbc" %% "scalikejdbc-config" % "2.5.0"
-
-  //val scalatags = "com.lihaoyi" %% "scalatags" % scalaTagsV
   val nscalaTime = "com.github.nscala-time" %% "nscala-time" % "2.22.0"
   val hikariCP = "com.zaxxer" % "HikariCP" % "3.4.1"
   val logback = "ch.qos.logback" % "logback-classic" % "1.2.3"
@@ -62,8 +58,7 @@ object Dependencies {
   val postgresql = "org.postgresql" % "postgresql" % "9.4.1208"
   val asynchttpclient = "org.asynchttpclient" % "async-http-client" % "2.10.4"
   val ehcache = "net.sf.ehcache" % "ehcache" % "2.10.6"
-
-  val mysql ="mysql" % "mysql-connector-java" % "5.1.46"
+  val h2Database = "com.h2database" % "h2" % "1.4.200"
   val ant =  "ant" % "ant" % "1.6.5"
 
 
@@ -77,9 +72,6 @@ object Dependencies {
       Dependencies.scalaXml,
       Dependencies.slick,
       Dependencies.slickCodeGen,
-      //Dependencies.scalikejdbc,
-      //Dependencies.scalikejdbcConfig,
-//      Dependencies.scalatags,
       Dependencies.nscalaTime,
       Dependencies.hikariCP,
       Dependencies.logback,
@@ -87,7 +79,7 @@ object Dependencies {
 //      Dependencies.postgresql,
       Dependencies.asynchttpclient,
       Dependencies.ehcache,
-      Dependencies.mysql,
+      Dependencies.h2Database,
       Dependencies.ant
     )
 
