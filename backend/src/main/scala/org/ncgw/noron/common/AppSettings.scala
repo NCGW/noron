@@ -44,6 +44,9 @@ object AppSettings {
   val httpInterface = appConfig.getString("http.interface")
   val httpPort = appConfig.getInt("http.port")
 
+  val baiduApiToken = appConfig.getString("baiduAptoken")
+
+
 
   val appSecureMap = {
     import collection.JavaConverters._

@@ -60,6 +60,7 @@ object Dependencies {
   val ehcache = "net.sf.ehcache" % "ehcache" % "2.10.6"
   val h2Database = "com.h2database" % "h2" % "1.4.200"
   val ant =  "ant" % "ant" % "1.6.5"
+  val fastjson = "com.alibaba" % "fastjson" % "1.2.62"
 
 
 
@@ -80,7 +81,8 @@ object Dependencies {
       Dependencies.asynchttpclient,
       Dependencies.ehcache,
       Dependencies.h2Database,
-      Dependencies.ant
+      Dependencies.ant,
+      Dependencies.fastjson
     )
 
 
