@@ -75,6 +75,9 @@ project/plugins/project/
 backend/target
 backend/data
 frontend/target
+shared/target
+shared/.js/target
+shared/.jvm/target
 # Created by .ignore support plugin (hsz.mobi)
 */.DS_Store
 *.dylib

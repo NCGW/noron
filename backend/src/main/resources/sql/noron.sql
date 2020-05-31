@@ -12,3 +12,4 @@ create table task(
 );
 alter table TASK alter column TASK_ID BIGINT default NEXT VALUE FOR "PUBLIC"."TASK_TID_SEQ" auto_increment;
 alter table TASK alter column USER_ID BIGINT default NEXT VALUE FOR "PUBLIC"."USER_UID_SEQ" auto_increment;
+alter table TASK add task_progress int default 0 not null;
