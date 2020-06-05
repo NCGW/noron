@@ -61,6 +61,7 @@ object Dependencies {
   val h2Database = "com.h2database" % "h2" % "1.4.200"
   val ant =  "ant" % "ant" % "1.6.5"
   val fastjson = "com.alibaba" % "fastjson" % "1.2.62"
+  val baiduNLP = "com.baidu.aip" % "java-sdk" % "4.12.0"
 
 
 
@@ -82,7 +83,8 @@ object Dependencies {
       Dependencies.ehcache,
       Dependencies.h2Database,
       Dependencies.ant,
-      Dependencies.fastjson
+      Dependencies.fastjson,
+      Dependencies.baiduNLP
     )
 
 
