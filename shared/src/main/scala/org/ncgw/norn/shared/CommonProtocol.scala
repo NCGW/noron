@@ -19,4 +19,9 @@ object CommonProtocol {
                         msg: String = "ok"
                       ) extends Response
 
+  case class UploadPicReq(
+                           userId: Long,
+                           picName: String
+                         )extends Request
+
 }

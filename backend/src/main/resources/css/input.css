@@ -18,5 +18,33 @@
     outline: none;
     background: #fff;
     border: 0;
+    margin-left: 25%;
+}
+.plane{
+    display: flex;
+    margin-left: 30%;
+}
+.plane-time{
+    font-size: 34px;
+
+}
+
+.plane-todo{
+    font-size: 34px;
+    margin-left: 10%;
+}
+
+.upload{
+    position: relative;
+    display: flex;
+    margin-top: 10px;
     margin-left: 20%;
+}
+
+.pic-input{
+    opacity:0;
+    position:absolute;
+    width: 100%;
+    height: 84px;
+    z-index:1;
 }

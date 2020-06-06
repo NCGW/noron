@@ -15,4 +15,10 @@ object Routes {
 
   }
 
+  object Upload{
+    private val baseUrl = base + "/upload"
+
+    val uploadPic = baseUrl + "/uploadPic"
+  }
+
 }
