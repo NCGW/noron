@@ -5,8 +5,56 @@
     <title>noron</title>
 
     <link rel="stylesheet" href="/noron/static/css/input.css">
+    <link rel="stylesheet" href="/noron/static/css/finish.css">
+    <script type="text/javascript" src="http://www.w3school.com.cn/jquery/jquery-1.11.1.min.js"></script>
+
+
 </head>
 <body>
+
+<script>
+
+  function progressBar(className1,className2){
+    //var bar = "."+bar;  //进度条背景
+    var bar = document.getElementsByClassName(className1);  //进度条背景
+    //var line = "."+line;  //进度条前景
+    var line = document.getElementsByClassName(className2);  //进度条前景
+    var statu = false;  //设置一个监控变量,监控鼠标是否按下
+
+    $(bar).mousedown(function (e) {
+      ev(e);  //当鼠标按下时可监听此时的点击横坐标
+    });
+    $(document).mouseup(function () {
+      statu = false;  //当鼠标松开时 将监控变量设置为false,表示不可执行鼠标移动事件 mousemove
+    });
+
+    //执行鼠标移动事件
+    $(bar).mousemove(function (e) {
+      if (statu === true) {
+        //当鼠标移动时可监听此时的移动横坐标,由于这里需要先监控statu的值,所以mousedown和mousemove使用同一个函数里给 statu 赋值为 true对全局的操作不影响
+        ev(e);
+      }
+    });
+
+    //执行事件,mousedown鼠标按下 和 mousemove鼠标移动都执行此函数,所以将其抽出
+    function ev(e){
+      var eleLeft = $(line).offset().left; //元素距离左侧的距离
+      var eventLeft = e.pageX ;//点击事件距离左侧的距离
+      $(line).width(eventLeft -eleLeft);
+      //当移动的宽度大于进度条背景本身的宽度时,就把前景的宽度设置为最大,防止前景宽度超出背景宽度
+      if(eventLeft -eleLeft > $(bar).width()){
+        $(line).width($(bar).width());
+      }
+      statu = true;   //当鼠标按时 将监控变量设置为true,表示可执行鼠标移动事件 mousemove
+    }
+  }
+
+  /**
+   * bar:进度条浅色半透明背景
+   * line:进度条前景白色
+   */
+  //fn("box","line");
+</script>
 
 </body>
 

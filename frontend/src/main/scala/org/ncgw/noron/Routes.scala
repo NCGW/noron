@@ -13,6 +13,8 @@ object Routes {
 
     val inputContent = baseUrl + "/inputContent"
 
+    val finishContent = baseUrl + "/finishContent"
+
   }
 
   object Upload{

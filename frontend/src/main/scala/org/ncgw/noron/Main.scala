@@ -2,6 +2,7 @@ package org.ncgw.noron
 
 import mhtml.{mount, _}
 import org.ncgw.noron.pages.InputPage
+import org.ncgw.noron.pages.FinishPage
 import org.scalajs.dom
 import org.ncgw.noron.utils.PageSwitcher
 

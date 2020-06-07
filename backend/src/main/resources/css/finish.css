@@ -1,0 +1,52 @@
+.content{
+    border: 2px solid rosybrown;
+    border-radius: 5px;
+    margin: 0 auto;
+    margin-top: 80px;
+    padding: 20px;
+    text-align: center;
+    width: 70%
+}
+
+.text{
+    text-align: center;
+    font-size: 40px;
+    font-weight: 900;
+}
+.progress{
+    text-align: center;
+}
+
+.box{
+    margin: 0 auto;
+    margin-top: 100px;
+    width: 600px;
+    height: 30px;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #f0f0f3;
+    padding:0 10px;
+    box-sizing:border-box;
+}
+.bar{
+    width:100%;
+    height: 4px;
+    background: rosybrown;
+    margin-top:12px ;
+}
+.line{
+    width:100px;
+    height:100%;
+    background: rgb(119, 64, 49);
+    position: relative;
+}
+.dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background: rgb(128, 59, 50);
+    position: absolute;
+    right: -4px;
+    top:-3px;
+}
+
