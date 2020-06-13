@@ -1,0 +1,50 @@
+.input-a{
+    width: 90%;
+    margin: 60px auto;
+    height: 500px;
+    font-size: 18px;
+    border: 1px solid #000;
+    border-radius: 8px;
+}
+
+.voice-button{
+    display: inline-block;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 4px;
+    outline: none;
+    background: #fff;
+    border: 0;
+    margin-left: 25%;
+}
+.plane{
+    display: flex;
+    margin-left: 30%;
+}
+.plane-time{
+    font-size: 34px;
+
+}
+
+.plane-todo{
+    font-size: 34px;
+    margin-left: 10%;
+}
+
+.upload{
+    position: relative;
+    display: flex;
+    margin-top: 10px;
+    margin-left: 20%;
+}
+
+.pic-input{
+    opacity:0;
+    position:absolute;
+    width: 100%;
+    height: 84px;
+    z-index:1;
+}
