@@ -18,6 +18,8 @@ object Main extends PageSwitcher {
     println(s"currentPage change to ${ls.mkString(",")}")
 
     ls match {
+      case "finishContent":: Nil=>
+        FinishPage.app
       case _ =>
         InputPage.app
 
