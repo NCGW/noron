@@ -42,4 +42,6 @@ object JsFunc extends js.Object{
 
   def fixOrientation(imgFile:File, imgDes:Image):js.Object = js.native
 
+  def progressBar(str: String, str1: String):Unit = js.native
+
 }

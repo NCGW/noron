@@ -13,7 +13,7 @@ import scala.concurrent.ExecutionContextExecutor
   * Date: 2020/3/20
   */
 trait HttpService extends ResourceService
-  with ServiceUtils {
+  with ServiceUtils{
 
   implicit val system: ActorSystem
 

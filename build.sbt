@@ -16,6 +16,7 @@ def commonSettings = Seq(
     //"-deprecation",
     "-feature"
   ),
+//  javacOptions := Seq("-target", "1.8")
   javacOptions ++= Seq("-encoding", "UTF-8")
 )
 

@@ -43,6 +43,7 @@ object Boot extends HttpService {
       case Success(b) ⇒
         val localAddress = b.localAddress
         println(s"Server is listening on ${localAddress.getHostName}:${localAddress.getPort}")
+//        utils.NLPUtil.main(args)
       case Failure(e) ⇒
         println(s"Binding failed with ${e.getMessage}")
         system.terminate()

@@ -21,6 +21,8 @@ package object shared {
 
   def ErrorRsp(errCode:Int, msg: String) = CommonRsp(errCode, msg)
 
-  val SuccessRsp = CommonRsp(0, "0k")
-
+  final case class SuccessRsp(
+                               errCode: Int = 0,
+                               msg: String = "ok"
+                             ) extends Response
 }
