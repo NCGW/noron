@@ -25,10 +25,10 @@ object FinishPage {
   def app: xml.Node = {
     println("123")
     <div>
-      <div class="content">
-        <div class="text">Congratulations！</div>
-        <div class="text">Today's Task Is Finished. </div>
-        <div class="text">Please Draw The ProgressBar. </div>
+      <div class="finish_content">
+        <div class="finish_text">Congratulations！</div>
+        <div class="finish_text">Today's Task Is Finished. </div>
+        <div class="finish_text">Please Draw The ProgressBar. </div>
       </div>
       <div class="progess">
         <div class="box">
