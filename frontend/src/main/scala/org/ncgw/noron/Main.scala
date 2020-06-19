@@ -3,6 +3,7 @@ package org.ncgw.noron
 import mhtml.{mount, _}
 import org.ncgw.noron.pages.InputPage
 import org.ncgw.noron.pages.FinishPage
+import org.ncgw.noron.pages.StartPage
 import org.scalajs.dom
 import org.ncgw.noron.utils.PageSwitcher
 
@@ -18,6 +19,8 @@ object Main extends PageSwitcher {
     println(s"currentPage change to ${ls.mkString(",")}")
 
     ls match {
+      case "Start":: taskid :: Nil=>
+        new StartPage(taskid).app
       case "finishContent":: Nil=>
         FinishPage.app
       case _ =>

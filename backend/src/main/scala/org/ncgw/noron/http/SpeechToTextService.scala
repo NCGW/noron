@@ -10,8 +10,6 @@ import akka.http.scaladsl.server.Directives._
   */
 trait SpeechToTextService extends ServiceUtils with SessionBase{
 
-
-
    val speechToText =(pathPrefix("statistics") & get){
     pathEndOrSingleSlash{
       getFromResource("html/statistics.html")

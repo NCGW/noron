@@ -10,8 +10,8 @@ object Routes {
   object ContentRoutes {
 
     private val baseUrl = base + "/content"
-
     val inputContent = baseUrl + "/inputContent"
+    val startContent = baseUrl + "/startContent"
 
     val finishContent = baseUrl + "/finishContent"
 
