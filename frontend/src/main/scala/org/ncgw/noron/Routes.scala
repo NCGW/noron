@@ -12,7 +12,6 @@ object Routes {
     private val baseUrl = base + "/content"
     val inputContent = baseUrl + "/inputContent"
     val startContent = baseUrl + "/startContent"
-
     val finishContent = baseUrl + "/finishContent"
 
   }
@@ -22,5 +21,6 @@ object Routes {
 
     val uploadPic = baseUrl + "/uploadPic"
   }
+
 
 }

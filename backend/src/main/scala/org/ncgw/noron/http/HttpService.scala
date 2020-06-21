@@ -6,6 +6,7 @@ import akka.http.scaladsl.server.Route
 import akka.stream.Materializer
 import akka.util.Timeout
 
+
 import scala.concurrent.ExecutionContextExecutor
 
 /**
@@ -13,7 +14,8 @@ import scala.concurrent.ExecutionContextExecutor
   * Date: 2020/3/20
   */
 trait HttpService extends ResourceService
-  with ServiceUtils{
+  with ServiceUtils
+  with StartService{
 
   implicit val system: ActorSystem
 
@@ -36,7 +38,7 @@ trait HttpService extends ResourceService
       pathPrefix("noron"){
         pathEndOrSingleSlash{
           home
-        } ~ resourceRoutes
+        } ~ resourceRoutes ~ Start
       }
     }
   }

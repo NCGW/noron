@@ -22,4 +22,5 @@ package object protocols {
                              ) extends CommonRsp
 
 
+  val parseError=ErrorRsp(100101,"parse error")
 }

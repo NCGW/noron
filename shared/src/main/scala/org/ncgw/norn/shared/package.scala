@@ -15,8 +15,8 @@ package object shared {
   }
 
   case class CommonRsp(
-    errCode: Int = 0,
-    msg: String = "ok"
+    errCode: Int,
+    msg: String
   ) extends Response
 
   def ErrorRsp(errCode:Int, msg: String) = CommonRsp(errCode, msg)
