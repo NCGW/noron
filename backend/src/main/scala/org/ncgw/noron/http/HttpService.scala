@@ -15,7 +15,8 @@ import scala.concurrent.ExecutionContextExecutor
   */
 trait HttpService extends ResourceService
   with ServiceUtils
-  with StartService{
+  with StartService
+  with FinishService{
 
   implicit val system: ActorSystem
 
@@ -38,7 +39,7 @@ trait HttpService extends ResourceService
       pathPrefix("noron"){
         pathEndOrSingleSlash{
           home
-        } ~ resourceRoutes ~ Start
+        } ~ resourceRoutes ~ Start ~ finish
       }
     }
   }
