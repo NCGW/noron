@@ -21,7 +21,7 @@ object MySlickCodeGenerator {
   val slickProfile = "slick.jdbc.H2Profile"
   val jdbcDriver = "org.h2.Driver"
 //  val url = "jdbc:h2:file:./data/VideoMeeting"
-  val url = "jdbc:h2:tcp://localhost//D:/GraduateWorks/Google-NCGW/noron/data/noron" //本地测试时尽量修改为本机h2文件地址
+  val url = "jdbc:h2:file:/Users/gaohan/Downloads/work/noron/data/noron" //本地测试时尽量修改为本机h2文件地址
   val outputFolder = "target/gencode/genTablesPsql"
   val pkg = "org.ncgw.noron.models"
   val user = "noron"

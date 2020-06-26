@@ -78,4 +78,11 @@ object InfoDAO {
         log.error(s"start or cancle task:$taskid error: $e")
         Future.successful(-1)
     }
+
+
+  def updateProgress(taskId: Long, progress: Int)= db.run{
+    tTask.filter(_.taskId === taskId).map(_.taskProgress).update(progress)
+  }
+
+
 }
