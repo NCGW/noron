@@ -21,8 +21,8 @@ object Main extends PageSwitcher {
     ls match {
       case "Start":: taskid :: Nil=>
         new StartPage(taskid).app
-      case "finishContent":: Nil=>
-        FinishPage.app
+      case "finishContent":: taskId :: Nil=>
+        new FinishPage(taskId).app
       case _ =>
         InputPage.app
 

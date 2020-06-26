@@ -1,7 +1,7 @@
 ﻿/* so the window resize fires within a frame in IE7 */
-html, body {
-    height: 100%;
-}
+/*html, body {*/
+    /*height: 100%;*/
+/*}*/
 
 .mobileFrameCursor div * {
     cursor: inherit !important;
