@@ -82,9 +82,9 @@ object InputPage {
         <div class="plane-todo">日程</div>
       </div>
 
-      <div style="margin: 10%;text-align: center;">
+      <div style="margin-top: 10%;text-align: center;">
         <button class="confirm">上传</button>
-        <button class="confirm" style="background: #FF0000;">确认</button>
+        <button class="confirm" style="background: rgba(255, 64, 75, 1);">确认</button>
       </div>
     </div>
   }
