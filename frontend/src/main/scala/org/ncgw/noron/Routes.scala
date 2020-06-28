@@ -15,6 +15,8 @@ object Routes {
     val inputContent = baseUrl + "/inputContent"
     val startContent = baseUrl + "/startContent"
 
+    val getParseText = baseUrl + "/getParseText"
+
   }
 
   object Upload{

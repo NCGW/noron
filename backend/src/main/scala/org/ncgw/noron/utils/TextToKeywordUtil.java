@@ -31,10 +31,13 @@ public class TextToKeywordUtil {
 
   }
 
-//  public static void main(String[] args) {
-//
-//    String text = "6月5日上午6点到10点开会";
-//    text2keywords(text);
-//
-//  }
+  public static void main(String[] args) {
+
+    TextToKeywordUtil demo = new TextToKeywordUtil();
+
+    String text = "6月2日上午10点至11点开会";
+    JSONObject r = demo.text2keywords(text);
+    System.out.println(r);
+
+  }
 }
