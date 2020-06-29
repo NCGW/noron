@@ -49,7 +49,7 @@ object InfoDAO {
 
   def delay(taskid:Long,delaymins:Long)=
     try{
-      val new_startTime:Long=System.currentTimeMillis()+delaymins
+      val new_startTime:Long=System.currentTimeMillis()+delaymins*60*1000
       db.run(
         tTask.filter(_.taskId === taskid).map(_.startTime).update(Some(new_startTime))
       )
@@ -64,6 +64,9 @@ object InfoDAO {
     try{
       type_sorc match{
         case "start"=>
+          db.run(
+            tTask.filter(_.taskId === taskid).map(_.startTime).update(Some(System.currentTimeMillis()))
+          )
           db.run(
             tTask.filter(_.taskId === taskid).map(_.taskProgress).update(-1)
           )

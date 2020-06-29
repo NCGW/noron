@@ -29,7 +29,7 @@ trait StartService extends ServiceUtils with SessionBase{
   private val log = LoggerFactory.getLogger(getClass)
 
   //获取日程信息
-  private val getTaskInfo=(path("startContent") & post) {
+  private val getTaskInfo=(path("getInfo") & post) {
     entity(as[Either[Error, GetTaskInfoReq]]) {
       case Left(error) =>
         println("okkkkkkkkkkkkkkk1")
@@ -49,7 +49,7 @@ trait StartService extends ServiceUtils with SessionBase{
     }
   }
 
-  private val delay=(path("startContent") & post) {
+  private val delay=(path("delay") & post) {
     entity(as[Either[Error, DelayReq]]) {
       case Left(error) =>
         println("okkkkkkkkkkkkkkk3")
@@ -57,6 +57,7 @@ trait StartService extends ServiceUtils with SessionBase{
         complete(parseError)
       case Right(req) =>
         println("okkkkkkkkkkkkkkk4")
+        println(req.taskid)
         dealFutureResult(
           InfoDAO.delay(req.taskid,req.mins_delay).map{r=>
             if (r > 0) {
@@ -69,7 +70,7 @@ trait StartService extends ServiceUtils with SessionBase{
     }
   }
 
-  private val StartorCancle=(path("startContent") & post) {
+  private val StartorCancle=(path("startorcancel") & post) {
     entity(as[Either[Error, StartorCancleReq]]) {
       case Left(error) =>
         println("okkkkkkkkkkkkkkk5")
@@ -90,8 +91,8 @@ trait StartService extends ServiceUtils with SessionBase{
   }
 
   val Start: Route =
-    pathPrefix("content") {
-      getTaskInfo ~delay~StartorCancle
+    pathPrefix("startContent") {
+      getTaskInfo ~ delay ~ StartorCancle
     }
 
 }

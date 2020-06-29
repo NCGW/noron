@@ -1,8 +1,7 @@
 package org.ncgw.noron.utils
 
 import slick.codegen.SourceCodeGenerator
-import slick.driver.{JdbcProfile, MySQLDriver}
-import slick.jdbc.{JdbcProfile,MySQLProfile}
+import slick.jdbc.JdbcProfile
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -15,33 +14,36 @@ import scala.concurrent.duration.Duration
 object MySlickCodeGenerator {
 
 
-
   import concurrent.ExecutionContext.Implicits.global
 
-  val slickProfile = "slick.jdbc.H2Profile"
+
+  val slickDriver = "slick.jdbc.PostgresProfile"
   val jdbcDriver = "org.h2.Driver"
-//  val url = "jdbc:h2:file:./data/VideoMeeting"
-  val url = "jdbc:h2:file:/Users/gaohan/Downloads/work/noron/data/noron" //本地测试时尽量修改为本机h2文件地址
+//  val url = "jdbc:postgresql://10.1.29.247:5432/todos2018"
+  val url = "jdbc:h2:tcp://localhost//D:\\GraduateWorks\\Google-NCGW\\noron\\data\\noron"
   val outputFolder = "target/gencode/genTablesPsql"
   val pkg = "org.ncgw.noron.models"
   val user = "noron"
   val password = "1qaz@WSX"
 
-
   //val dbDriver = MySQLDriver
 
-  def genCustomTables() = {
+
+
+
+
+  def genCustomTables(dbDriver: JdbcProfile) = {
 
     // fetch data model
     val driver: JdbcProfile =
-      Class.forName(slickProfile + "$").getField("MODULE$").get(null).asInstanceOf[JdbcProfile]
+      Class.forName(slickDriver + "$").getField("MODULE$").get(null).asInstanceOf[JdbcProfile]
     val dbFactory = driver.api.Database
     val db = dbFactory.forURL(url, driver = jdbcDriver,
       user = user, password = password, keepAliveConnection = true)
 
 
     // fetch data model
-    val modelAction = MySQLProfile.createModel(Some(MySQLProfile.defaultTables)) // you can filter specific tables here
+    val modelAction = dbDriver.createModel(Some(dbDriver.defaultTables)) // you can filter specific tables here
     val modelFuture = db.run(modelAction)
 
     // customize code generator
@@ -75,7 +77,7 @@ object MySlickCodeGenerator {
 
     val codeGenerator = Await.result(codeGenFuture, Duration.Inf)
     codeGenerator.writeToFile(
-      slickProfile, outputFolder, pkg, "SlickTables", "SlickTables.scala"
+      slickDriver, outputFolder, pkg, "SlickTables", "SlickTables.scala"
     )
 
 
@@ -85,16 +87,19 @@ object MySlickCodeGenerator {
   def genDefaultTables() = {
 
     slick.codegen.SourceCodeGenerator.main(
-      Array(slickProfile, jdbcDriver, url, outputFolder, pkg, user, password)
+      Array(slickDriver, jdbcDriver, url, outputFolder, pkg, user, password)
     )
 
 
   }
 
 
+
   def main(args: Array[String]) {
     //genDefaultTables()
-    genCustomTables()
+    val dbDriver = slick.jdbc.PostgresProfile
+
+    genCustomTables(dbDriver)
 
     println(s"Tables.scala generated in $outputFolder")
 

@@ -13,7 +13,6 @@ object Routes {
 
     private val baseUrl = base + "/content"
     val inputContent = baseUrl + "/inputContent"
-    val startContent = baseUrl + "/startContent"
 
   }
 
@@ -32,7 +31,12 @@ object Routes {
 
     val updateeReward = baseUrl + "/updateReward"
 
-
+  }
+  object Start {
+    private val baseUrl = base + "/startContent"
+    val getInfo = baseUrl + "/getInfo"
+    val delay = baseUrl + "/delay"
+    val startorcancel = baseUrl + "/startorcancel"
 
   }
 

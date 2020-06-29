@@ -3,7 +3,7 @@ package org.ncgw.noron.models
 // AUTO-GENERATED Slick data model
 /** Stand-alone Slick data model for immediate use */
 object SlickTables extends {
-  val profile = slick.jdbc.H2Profile
+  val profile = slick.jdbc.PostgresProfile
 } with SlickTables
 
 /** Slick data model trait for extension, choice of backend or usage in the cake pattern. (Make sure to initialize this late.) */
@@ -36,7 +36,7 @@ trait SlickTables {
     rTask.tupled((<<[Long], <<[Long], <<?[String], <<?[String], <<?[Long], <<?[Long], <<[Int], <<[Int], <<[Int]))
   }
   /** Table description of table TASK. Objects of this class serve as prototypes for rows in queries. */
-  class tTask(_tableTag: Tag) extends profile.api.Table[rTask](_tableTag, None, "TASK") {
+  class tTask(_tableTag: Tag) extends profile.api.Table[rTask](_tableTag, Some("PUBLIC"), "TASK") {
     def * = (taskId, userId, taskContent, taskImg, startTime, endTime, taskType, taskProgress, priority) <> (rTask.tupled, rTask.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = ((Rep.Some(taskId), Rep.Some(userId), taskContent, taskImg, startTime, endTime, Rep.Some(taskType), Rep.Some(taskProgress), Rep.Some(priority))).shaped.<>({r=>import r._; _1.map(_=> rTask.tupled((_1.get, _2.get, _3, _4, _5, _6, _7.get, _8.get, _9.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -77,7 +77,7 @@ trait SlickTables {
     rUser.tupled((<<[Long], <<?[String], <<?[Int]))
   }
   /** Table description of table USER. Objects of this class serve as prototypes for rows in queries. */
-  class tUser(_tableTag: Tag) extends profile.api.Table[rUser](_tableTag, None, "USER") {
+  class tUser(_tableTag: Tag) extends profile.api.Table[rUser](_tableTag, Some("PUBLIC"), "USER") {
     def * = (userId, userName, coins) <> (rUser.tupled, rUser.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = ((Rep.Some(userId), userName, coins)).shaped.<>({r=>import r._; _1.map(_=> rUser.tupled((_1.get, _2, _3)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
