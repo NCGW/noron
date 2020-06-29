@@ -10,7 +10,7 @@ import io.circe.generic.auto._
 import io.circe.syntax._
 import org.ncgw.noron.shared.CommonProtocol.{ContentInputReq, ContentInputRsp}
 import org.ncgw.noron.shared.TaskStartProtocol._
-import org.ncgw.norn.shared.{CommonRsp, ErrorRsp, SuccessRsp}
+import org.ncgw.noron.shared.{CommonRsp, ErrorRsp, SuccessRsp}
 
 import scala.language.postfixOps
 import org.ncgw.noron.utils.{Http, JsFunc, TimeTool}

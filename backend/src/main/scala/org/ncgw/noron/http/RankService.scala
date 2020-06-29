@@ -1,13 +1,13 @@
 package org.ncgw.noron.http
 
 import akka.http.scaladsl.server.Directives.{as, complete, entity, path, pathPrefix}
-import org.ncgw.norn.shared.RankProtocol._
+import org.ncgw.noron.shared.RankProtocol._
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.Directives._
 import akka.actor.Scheduler
 import akka.util.Timeout
 import org.slf4j.LoggerFactory
-import org.ncgw.norn.shared.{ErrorRsp, SuccessRsp}
+import org.ncgw.noron.shared.{ErrorRsp, SuccessRsp}
 import org.ncgw.noron.models.dao.{RankDao}
 
 import scala.concurrent.ExecutionContext.Implicits.global

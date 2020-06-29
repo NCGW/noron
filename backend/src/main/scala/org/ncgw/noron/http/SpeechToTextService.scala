@@ -3,8 +3,8 @@ package org.ncgw.noron.http
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.Directives._
 import io.circe.Error
-import org.ncgw.norn.shared.SpeechToTextProtocol.{GetParseTextReq, GetParseTextRsp}
-import org.ncgw.norn.shared.{ErrorRsp, SuccessRsp}
+import org.ncgw.noron.shared.SpeechToTextProtocol.{GetParseTextReq, GetParseTextRsp}
+import org.ncgw.noron.shared.{ErrorRsp, SuccessRsp}
 import org.ncgw.noron.utils.{NLPUtil, SpeechToTextUtil, TextToKeywordUtil}
 import org.slf4j.LoggerFactory
 

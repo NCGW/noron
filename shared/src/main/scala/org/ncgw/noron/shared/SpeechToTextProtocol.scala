@@ -1,4 +1,4 @@
-package org.ncgw.norn.shared
+package org.ncgw.noron.shared
 
 /**
   * User: gaohan

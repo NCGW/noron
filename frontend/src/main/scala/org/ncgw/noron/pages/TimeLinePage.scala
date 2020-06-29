@@ -56,17 +56,19 @@ object TimeLinePage {
       </div>
     </div>
   }
-  
+
   val timeLine:Elem =
     <div class="tlp-wrapper">
       {todayTasks.map{ lst =>
       if(lst.isEmpty){
         emptyHTML
       }else{
-        {lst.zipWithIndex.map{l => createTimeLineItem(l._1, taskColor(l._2 % 3))}}
+        <div>
+          {lst.zipWithIndex.map{l => createTimeLineItem(l._1, taskColor(l._2 % 3))}}
+        </div>
       }}}
     </div>
-  
+
   def app:Node = {
     getTodayTasks()
     timeLine

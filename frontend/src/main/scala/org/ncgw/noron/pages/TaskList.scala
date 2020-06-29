@@ -36,7 +36,7 @@ object TaskList {
     }
   }
 
-  def deleteTask(taskId: Int) = {
+  def deleteTask(taskId: Int):Unit = {
     Http.getAndParse[SuccessRsp](Routes.TaskList.deleteTask(taskId)).map{
       case Right(rsp) =>
         if(rsp.errCode == 0){
@@ -78,7 +78,9 @@ object TaskList {
         if(lst.isEmpty){
           emptyHTML
         }else{
-          lst.map{l => createTaskItem(l)}
+          <div>
+            {lst.map{l => createTaskItem(l)}}
+          </div>
         }
       }}
     </div>

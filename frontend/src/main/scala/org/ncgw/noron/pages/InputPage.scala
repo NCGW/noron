@@ -4,7 +4,7 @@ import mhtml._
 import io.circe.generic.auto._
 import io.circe.syntax._
 import org.ncgw.noron.shared.CommonProtocol.{ContentInputReq, ContentInputRsp, UploadPicReq}
-import org.ncgw.norn.shared.SuccessRsp
+import org.ncgw.noron.shared.SuccessRsp
 import scala.language.postfixOps
 import org.ncgw.noron.utils.Http
 import org.ncgw.noron.Routes
