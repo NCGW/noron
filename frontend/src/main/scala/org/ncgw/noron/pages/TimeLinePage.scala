@@ -20,8 +20,11 @@ import scala.xml.{Elem, Node}
 
 object TimeLinePage {
 
-  val todayTasks = Var(List[TimeLineItem]())
-  val taskColor = List("#ffc340", "#ff404b", "16d585")
+  val fakeData = List(TimeLineItem(0, 1593425053417L, 1593425053417L, "read", None),
+    TimeLineItem(1, 1593425053417L, 1593425053417L, "write123456667782344556667", None),
+    TimeLineItem(3, 1593425053417L, 1593425053417L, "rwalking", None))
+  val todayTasks = Var(fakeData)
+  val showDetail = Var(-1)
 
   def getTodayTasks():Unit = {
     Http.getAndParse[TodayTasksRsp](Routes.TimeLine.getTodayTasks).map{
@@ -37,9 +40,10 @@ object TimeLinePage {
     }
   }
 
-  def createTimeLineItem(item: TimeLineItem, bgColor: String):Elem = {
+  def createTimeLineItem(item: TimeLineItem, idx: Int):Elem = {
+    val detailStyle = showDetail.map{i => if(i == item.taskId) "display:block" else "display:none"}
     <div class="tlp-item">
-      <div class="tlp-detail">
+      <div class="tlp-detail" style={detailStyle}>
         <p class="tlp-detail-p">{item.content}</p>
         {
         if(item.img.isDefined)
@@ -48,12 +52,15 @@ object TimeLinePage {
           emptyHTML
         }
       </div>
-      <div class="tlp-simple" style={s"background-color:$bgColor"}>
-        <p class="tlp-simple-time">
-          {TimeTool.DateFormatter(new Date(item.startTime), "hh:mm")}-{TimeTool.DateFormatter(new Date(item.endTime), "hh:mm")}
-        </p>
-        <p class="tlp-simple-p">{item.content}</p>
-      </div>
+      {
+        val class4item = s"tlp-simple tlp-color$idx "
+        <div class={class4item} onclick={() => showDetail := item.taskId}>
+          <p class="tlp-simple-time">
+            {TimeTool.DateFormatter(new Date(item.startTime), "hh:mm")}-{TimeTool.DateFormatter(new Date(item.endTime), "hh:mm")}
+          </p>
+          <p class="tlp-simple-p">{item.content}</p>
+        </div>
+      }
     </div>
   }
 
@@ -64,13 +71,13 @@ object TimeLinePage {
         emptyHTML
       }else{
         <div>
-          {lst.zipWithIndex.map{l => createTimeLineItem(l._1, taskColor(l._2 % 3))}}
+          {lst.zipWithIndex.map{l => createTimeLineItem(l._1, l._2 % 3)}}
         </div>
       }}}
     </div>
 
   def app:Node = {
-    getTodayTasks()
+//    getTodayTasks()
     timeLine
   }
 
