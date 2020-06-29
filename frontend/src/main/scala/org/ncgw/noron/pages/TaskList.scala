@@ -53,7 +53,7 @@ object TaskList {
 
   def createTaskItem(item: TaskItem):Elem = {
     <div class="tl-taskitem">
-      <img class="tl-delete" src="" onclick={() =>
+      <img class="tl-delete" src="delete.png" onclick={() =>
         deleteTask(item.taskId)
       }></img>
       <div class="tl-tasktime">
