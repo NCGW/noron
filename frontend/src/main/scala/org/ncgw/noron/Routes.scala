@@ -14,6 +14,8 @@ object Routes {
     private val baseUrl = base + "/content"
     val inputContent = baseUrl + "/inputContent"
 
+    val getParseText = baseUrl + "/getParseText"
+
   }
 
   object Upload{
@@ -37,7 +39,14 @@ object Routes {
     val getInfo = baseUrl + "/getInfo"
     val delay = baseUrl + "/delay"
     val startorcancel = baseUrl + "/startorcancel"
+  }
 
+  object Rank{
+    private val baseUrl = base + "/rank"
+
+    val getRank = baseUrl + "/getRank"
+
+    val getUserRank = baseUrl + "/getUserRank"
   }
 
 
