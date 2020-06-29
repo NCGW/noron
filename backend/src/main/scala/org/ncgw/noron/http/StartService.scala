@@ -36,7 +36,7 @@ trait StartService extends ServiceUtils with SessionBase{
         log.warn(s"some error: $error")
         complete(parseError)
       case Right(req) =>
-        println("okkkkkkkkkkkkkkk2")
+//        println("okkkkkkkkkkkkkkk2")
         dealFutureResult(
           InfoDAO.getInfoByTaskid(req.taskid).map{info=>
             if(info.isEmpty){
