@@ -24,7 +24,7 @@ object TimeLinePage {
   val taskColor = List("#ffc340", "#ff404b", "16d585")
 
   def getTodayTasks():Unit = {
-    Http.getAndParse[TodayTasksRsp](Routes.TimeLine.getTodaytasks).map{
+    Http.getAndParse[TodayTasksRsp](Routes.TimeLine.getTodayTasks).map{
       case Right(rsp) =>
         if(rsp.errCode == 0){
           todayTasks := rsp.todayTasks

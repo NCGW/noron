@@ -49,5 +49,18 @@ object Routes {
     val getUserRank = baseUrl + "/getUserRank"
   }
 
+  object TimeLine{
+    private val baseUrl = base + "/timeLine"
+
+    val getTodayTasks = baseUrl + "/"
+  }
+
+  object TaskList{
+    private val baseUrl = base + "/taskList"
+
+    def getTaskList(uId: Int):String = baseUrl + s"?userId=$uId"
+    def deleteTask(taskId: Int):String = baseUrl + s"delete?taskId=$taskId"
+  }
+
 
 }
