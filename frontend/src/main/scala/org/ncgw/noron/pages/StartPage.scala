@@ -8,8 +8,8 @@ package org.ncgw.noron.pages
 import mhtml._
 import io.circe.generic.auto._
 import io.circe.syntax._
-import org.ncgw.norn.shared.CommonProtocol.{ContentInputReq, ContentInputRsp}
-import org.ncgw.norn.shared.TaskStartProtocol._
+import org.ncgw.noron.shared.CommonProtocol.{ContentInputReq, ContentInputRsp}
+import org.ncgw.noron.shared.TaskStartProtocol._
 import org.ncgw.norn.shared.{CommonRsp, ErrorRsp, SuccessRsp}
 
 import scala.language.postfixOps

@@ -3,7 +3,7 @@ package org.ncgw.noron.pages
 import mhtml._
 import io.circe.generic.auto._
 import io.circe.syntax._
-import org.ncgw.norn.shared.CommonProtocol.{ContentInputReq, ContentInputRsp, UploadPicReq}
+import org.ncgw.noron.shared.CommonProtocol.{ContentInputReq, ContentInputRsp, UploadPicReq}
 import org.ncgw.norn.shared.SuccessRsp
 import scala.language.postfixOps
 import org.ncgw.noron.utils.Http

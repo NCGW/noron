@@ -22,5 +22,17 @@ object Routes {
     val uploadPic = baseUrl + "/uploadPic"
   }
 
+  object TimeLine{
+    private val baseUrl = base + "/timeLine"
+
+    val getTodaytasks = baseUrl + "/"
+  }
+
+  object TaskList{
+    private val baseUrl = base + "/taskList"
+
+    def getTaskList(uId: Int):String = baseUrl + s"?userId=$uId"
+    def deleteTask(tId: Int):String = baseUrl + s"/delete?taskId=$tId"
+  }
 
 }

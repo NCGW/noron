@@ -1,12 +1,6 @@
-package org.ncgw.norn.shared
-
+package org.ncgw.noron.shared
 
 object CommonProtocol {
-
-  object RoomSate{
-    val ready: Byte = 0
-    val on: Byte = 1
-  }
 
   case class ContentInputReq(
                         userId: Long,
