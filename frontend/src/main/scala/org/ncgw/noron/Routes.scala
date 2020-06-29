@@ -34,8 +34,12 @@ object Routes {
 
     val updateeReward = baseUrl + "/updateReward"
 
+  }
 
+  object Rank{
+    private val baseUrl = base + "/rank"
 
+    val getRank = baseUrl + "/getRank"
   }
 
 
