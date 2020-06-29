@@ -12,7 +12,7 @@ public class TextToKeywordUtil {
   public static final String API_KEY = "1jAZ3741hlz9TlP8tLOnTyBb";
   public static final String SECRET_KEY = "1QESFwgYL1DbhkarHGvBxM99HlEqpxUD";
 
-  public JSONObject text2keywords(String text){
+  public JSONObject text2keywords(String  text){
     // 初始化一个AipNlp
     AipNlp client = new AipNlp(APP_ID, API_KEY, SECRET_KEY);
 
@@ -31,10 +31,13 @@ public class TextToKeywordUtil {
 
   }
 
-//  public static void main(String[] args) {
-//
-//    String text = "6月5日上午6点到10点开会";
-//    text2keywords(text);
-//
-//  }
+  public static void main(String[] args) {
+
+    TextToKeywordUtil demo = new TextToKeywordUtil();
+
+    String text = "6月2日上午10点至11点开会";
+    JSONObject r = demo.text2keywords(text);
+    System.out.println(r);
+
+  }
 }

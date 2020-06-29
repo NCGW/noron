@@ -30,7 +30,7 @@ class StartPage(Taskid: String) extends Index {
 
   def delay(min:Int)={
     val delay = DelayReq(taskid,min).asJson.noSpaces
-    Http.postJsonAndParse[CommonRsp](Routes.ContentRoutes.startContent, delay).map {
+    Http.postJsonAndParse[CommonRsp](Routes.Start.delay, delay).map {
       case Right(rsp) =>
         if(rsp.errCode == 0) {
           JsFunc.alert("延时成功！")
@@ -47,10 +47,11 @@ class StartPage(Taskid: String) extends Index {
 
   def start(type_sorc:String)={
     val type_sc = StartorCancleReq(taskid,type_sorc).asJson.noSpaces
-    Http.postJsonAndParse[CommonRsp](Routes.ContentRoutes.startContent, type_sc).map {
+    Http.postJsonAndParse[CommonRsp](Routes.Start.startorcancel, type_sc).map {
       case Right(rsp) =>
         if(rsp.errCode == 0) {
-          JsFunc.alert(rsp.msg)
+//          JsFunc.alert(rsp.msg)
+          JsFunc.alert("特殊时期，出门请戴口罩，避免人多聚集")
         } else {
           JsFunc.alert("失败！")
           println(rsp.msg)
@@ -67,7 +68,7 @@ class StartPage(Taskid: String) extends Index {
   def getINFO(taskid: Long) = {
     val data_info = GetTaskInfoReq(taskid).asJson.noSpaces
 //    JsFunc.alert(data_info.toString)
-    Http.postJsonAndParse[GetTaskInfoRsp](Routes.ContentRoutes.startContent, data_info).map {
+    Http.postJsonAndParse[GetTaskInfoRsp](Routes.Start.getInfo, data_info).map {
       case Right(rsp) =>
         if (rsp.errCode == 0) {
           info := rsp.infoData
@@ -174,8 +175,8 @@ class StartPage(Taskid: String) extends Index {
               <div id="u11" class="ax_default label">
                 <div id="u11_div" ></div>
                 <div id="u11_text" class="text ">
-                  <p><span>{
-                    ((new Date(l.duringTime)).getDate*24+(new Date(l.duringTime)).getHours-32) match{
+                  <p><span>
+                    {((new Date(l.duringTime)).getDate*24+(new Date(l.duringTime)).getHours-32) match{
                       case 0=>""
                       case other=>other.toString+"h"}}
                     {(new Date(l.duringTime)).getMinutes() match{

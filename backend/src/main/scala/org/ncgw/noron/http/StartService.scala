@@ -29,14 +29,14 @@ trait StartService extends ServiceUtils with SessionBase{
   private val log = LoggerFactory.getLogger(getClass)
 
   //获取日程信息
-  private val getTaskInfo=(path("startContent") & post) {
+  private val getTaskInfo=(path("getInfo") & post) {
     entity(as[Either[Error, GetTaskInfoReq]]) {
       case Left(error) =>
-        println("okkkkkkkkkkkkkkk1")
+//        println("okkkkkkkkkkkkkkk1")
         log.warn(s"some error: $error")
         complete(parseError)
       case Right(req) =>
-        println("okkkkkkkkkkkkkkk2")
+//        println("okkkkkkkkkkkkkkk2")
         dealFutureResult(
           InfoDAO.getInfoByTaskid(req.taskid).map{info=>
             if(info.isEmpty){
@@ -49,14 +49,15 @@ trait StartService extends ServiceUtils with SessionBase{
     }
   }
 
-  private val delay=(path("startContent") & post) {
+  private val delay=(path("delay") & post) {
     entity(as[Either[Error, DelayReq]]) {
       case Left(error) =>
-        println("okkkkkkkkkkkkkkk3")
+//        println("okkkkkkkkkkkkkkk3")
         log.warn(s"some error: $error")
         complete(parseError)
       case Right(req) =>
-        println("okkkkkkkkkkkkkkk4")
+//        println("okkkkkkkkkkkkkkk4")
+        println(req.taskid)
         dealFutureResult(
           InfoDAO.delay(req.taskid,req.mins_delay).map{r=>
             if (r > 0) {
@@ -69,14 +70,14 @@ trait StartService extends ServiceUtils with SessionBase{
     }
   }
 
-  private val StartorCancle=(path("startContent") & post) {
+  private val StartorCancle=(path("startorcancel") & post) {
     entity(as[Either[Error, StartorCancleReq]]) {
       case Left(error) =>
-        println("okkkkkkkkkkkkkkk5")
+//        println("okkkkkkkkkkkkkkk5")
         log.warn(s"some error: $error")
         complete(parseError)
       case Right(req) =>
-        println("okkkkkkkkkkkkkkk6")
+//        println("okkkkkkkkkkkkkkk6")
         dealFutureResult(
           InfoDAO.startorCancle(req.taskid,req.type_sorc).map{r=>
             if (r > 0) {
@@ -90,8 +91,8 @@ trait StartService extends ServiceUtils with SessionBase{
   }
 
   val Start: Route =
-    pathPrefix("content") {
-      getTaskInfo ~delay~StartorCancle
+    pathPrefix("startContent") {
+      getTaskInfo ~ delay ~ StartorCancle
     }
 
 }

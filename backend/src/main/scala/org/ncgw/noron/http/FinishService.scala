@@ -5,10 +5,11 @@ import akka.http.scaladsl.server.Directives._
 import akka.actor.Scheduler
 import akka.util.Timeout
 import org.slf4j.LoggerFactory
-import org.ncgw.noron.shared.TaskStartProtocol._
+import org.ncgw.norn.shared.TaskStartProtocol._
+import org.ncgw.norn.shared.FinishTaskProtocol._
+import org.ncgw.norn.shared.{ErrorRsp, SuccessRsp}
 import org.ncgw.norn.shared.CommonRsp
-import org.ncgw.noron.models.dao.InfoDAO
-import org.ncgw.noron.protocols.{SuccessRsp, parseError,ErrorRsp}
+import org.ncgw.noron.models.dao.{InfoDAO, UserDao}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 /**
@@ -28,72 +29,75 @@ trait FinishService extends ServiceUtils with SessionBase{
   private val log = LoggerFactory.getLogger(getClass)
 
   //获取日程信息
-  private val getTaskInfo = (path("getTaskInfo") & post) {
+  private val getInfo = (path("getInfo") & post & pathEndOrSingleSlash) {
     entity(as[Either[Error, GetTaskInfoReq]]) {
-      case Left(error) =>
-        println("okkkkkkkkkkkkkkk1")
-        log.warn(s"some error: $error")
-        complete(parseError)
       case Right(req) =>
-        println("okkkkkkkkkkkkkkk2")
-        dealFutureResult(
-          InfoDAO.getInfoByTaskid(req.taskid).map{info=>
-            if(info.isEmpty){
-              complete(ErrorRsp(100102,"task is not exist"))
-            }else{
+        dealFutureResult {
+          InfoDAO.getInfoByTaskid(req.taskid).map { info =>
+            if (info.isEmpty) {
+              complete(ErrorRsp(100102, "task is not exist"))
+            } else {
               complete(GetTaskInfoRsp(info))
             }
+          }.recover {
+            case e: Exception =>
+              log.warn(s"get info error,${e.getMessage}")
+              complete(ErrorRsp(1000031, "get info error."))
           }
-        )
+        }
+
+      case Left(error) =>
+        log.warn(s"some error: $error")
+        complete(ErrorRsp(100101,"parse error"))
     }
   }
 
-  //获取日程信息
-  private val updateProgress=(path("updateProgress") & post) {
-    entity(as[Either[Error, GetTaskInfoReq]]) {
-      case Left(error) =>
-        println("okkkkkkkkkkkkkkk1")
-        log.warn(s"some error: $error")
-        complete(parseError)
+  //更新进度
+  private val updateProgress=(path("updateProgress") & post & pathEndOrSingleSlash ) {
+
+    entity(as[Either[Error, UpdateProgressReq]]) {
       case Right(req) =>
-        println("okkkkkkkkkkkkkkk2")
         dealFutureResult(
-          InfoDAO.getInfoByTaskid(req.taskid).map{info=>
-            if(info.isEmpty){
-              complete(ErrorRsp(100102,"task is not exist"))
-            }else{
-              complete(GetTaskInfoRsp(info))
-            }
+          InfoDAO.updateProgress(req.taskId, req.progress).map{info=>
+              complete(SuccessRsp())
+
           }
         )
+
+      case Left(error) =>
+        log.warn(s"parse error: $error")
+        complete(ErrorRsp(100101,"parse error"))
     }
   }
 
-  //获取日程信息
+  //更新积分
   private val updateReward=(path("updateReward") & post) {
-    entity(as[Either[Error, GetTaskInfoReq]]) {
-      case Left(error) =>
-        println("okkkkkkkkkkkkkkk1")
-        log.warn(s"some error: $error")
-        complete(parseError)
+    entity(as[Either[Error, UpdateRewardReq]]) {
       case Right(req) =>
-        println("okkkkkkkkkkkkkkk2")
-        dealFutureResult(
-          InfoDAO.getInfoByTaskid(req.taskid).map{info=>
-            if(info.isEmpty){
-              complete(ErrorRsp(100102,"task is not exist"))
-            }else{
-              complete(GetTaskInfoRsp(info))
+        dealFutureResult{
+          UserDao.getReward(req.useId).map{ r =>
+            dealFutureResult{
+              UserDao.updateReward(req.useId, Some(req.reward + r.head.get)).map( s =>
+                complete(SuccessRsp())
+              )
             }
+
           }
-        )
+
+        }
+
+
+
+      case Left(error) =>
+        log.warn(s"some error: $error")
+        complete(ErrorRsp(100103,"parse error"))
     }
   }
 
 
   val finish: Route =
     pathPrefix("finishContent") {
-      getTaskInfo ~ updateProgress ~ updateReward
+      getInfo ~ updateProgress ~ updateReward
     }
 
 }

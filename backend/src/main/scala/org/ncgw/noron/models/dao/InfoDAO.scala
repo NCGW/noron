@@ -49,7 +49,7 @@ object InfoDAO {
 
   def delay(taskid:Long,delaymins:Long)=
     try{
-      val new_startTime:Long=System.currentTimeMillis()+delaymins
+      val new_startTime:Long=System.currentTimeMillis()+delaymins*60*1000
       db.run(
         tTask.filter(_.taskId === taskid).map(_.startTime).update(Some(new_startTime))
       )
@@ -65,6 +65,9 @@ object InfoDAO {
       type_sorc match{
         case "start"=>
           db.run(
+            tTask.filter(_.taskId === taskid).map(_.startTime).update(Some(System.currentTimeMillis()))
+          )
+          db.run(
             tTask.filter(_.taskId === taskid).map(_.taskProgress).update(-1)
           )
         case "cancle"=>
@@ -78,4 +81,11 @@ object InfoDAO {
         log.error(s"start or cancle task:$taskid error: $e")
         Future.successful(-1)
     }
+
+
+  def updateProgress(taskId: Long, progress: Int)= db.run{
+    tTask.filter(_.taskId === taskId).map(_.taskProgress).update(progress)
+  }
+
+
 }

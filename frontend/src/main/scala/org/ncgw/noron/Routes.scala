@@ -1,5 +1,7 @@
 package org.ncgw.noron
 
+import org.ncgw.noron.Routes.ContentRoutes.baseUrl
+
 /**
   * Created by haoshuhan on 2018/6/4.
   */
@@ -11,8 +13,8 @@ object Routes {
 
     private val baseUrl = base + "/content"
     val inputContent = baseUrl + "/inputContent"
-    val startContent = baseUrl + "/startContent"
-    val finishContent = baseUrl + "/finishContent"
+
+    val getParseText = baseUrl + "/getParseText"
 
   }
 
@@ -22,17 +24,30 @@ object Routes {
     val uploadPic = baseUrl + "/uploadPic"
   }
 
-  object TimeLine{
-    private val baseUrl = base + "/timeLine"
+  object Finish{
+    private val baseUrl = base + "/finishContent"
 
-    val getTodaytasks = baseUrl + "/"
+    val getInfo = baseUrl + "/getInfo"
+
+    val updateProgress = baseUrl + "/updateProgress"
+
+    val updateeReward = baseUrl + "/updateReward"
+
+  }
+  object Start {
+    private val baseUrl = base + "/startContent"
+    val getInfo = baseUrl + "/getInfo"
+    val delay = baseUrl + "/delay"
+    val startorcancel = baseUrl + "/startorcancel"
   }
 
-  object TaskList{
-    private val baseUrl = base + "/taskList"
+  object Rank{
+    private val baseUrl = base + "/rank"
 
-    def getTaskList(uId: Int):String = baseUrl + s"?userId=$uId"
-    def deleteTask(tId: Int):String = baseUrl + s"/delete?taskId=$tId"
+    val getRank = baseUrl + "/getRank"
+
+    val getUserRank = baseUrl + "/getUserRank"
   }
+
 
 }
