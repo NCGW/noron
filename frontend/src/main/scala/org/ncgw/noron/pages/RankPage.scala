@@ -20,6 +20,10 @@ class RankPage(userId: Long) extends Index {
   val rankList = Var(List.empty[rankInfo])
 //  val list = Var(List((10001,"gh",100),(10002,"shuai",90),(10003,"nannan",80),(10004,"yuan",70)))
 
+  val userName = Var("")
+  val userRank = Var(0)
+  val userIntegral = Var(0)
+
   def getRank(): Unit = {
     Http.getAndParse[GetRankRsp](Routes.Rank.getRank).map {
       case Right(rsp) =>
@@ -34,8 +38,29 @@ class RankPage(userId: Long) extends Index {
     }
   }
 
+  def getUserRank() : Unit ={
+
+    val data_info = GetUserRankReq(10002l).asJson.noSpaces
+    Http.postJsonAndParse[GetUserRankRsp](Routes.Rank.getUserRank, data_info).map {
+      case Right(rsp) =>
+        if (rsp.errCode == 0) {
+          userName := rsp.userName
+          userRank := rsp.userRank
+          userIntegral := rsp.userIntegral
+        } else {
+          JsFunc.alert("获取个人积分排行失败！")
+          println(rsp.msg)
+        }
+      case Left(error) =>
+        println(s"get user rank error,$error")
+
+    }
+
+  }
+
   def app: xml.Node = {
     getRank()
+    getUserRank()
 
     <div>
       <div class="my-swiper">
@@ -69,8 +94,8 @@ class RankPage(userId: Long) extends Index {
       </div>
 
       <div>
-        <div class="userName">shuai</div>
-        <div class="pai-ming">积分为：90，排名第2</div>
+        <div class="userName">{userName.map(r => r)}</div>
+        <div class="pai-ming">积分为：{userIntegral.map(r => r)}，排名第{userRank.map(r => r)}</div>
       </div>
       <div class="ge-li"></div>
       {

@@ -40,6 +40,8 @@ object Routes {
     private val baseUrl = base + "/rank"
 
     val getRank = baseUrl + "/getRank"
+
+    val getUserRank = baseUrl + "/getUserRank"
   }
 
 

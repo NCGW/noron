@@ -15,7 +15,15 @@ object RankDao {
   private val tUser = SlickTables.tUser
 
   def getRank = db.run{
-    tUser.result
+    tUser.sortBy(_.coins).result
+  }
+
+  def getUserRank (userId : Long) = db.run{
+    tUser.filter(_.userId === userId).result
+  }
+
+  def getRankCoin(userId : Long)=db.run{
+    tUser.filter(_.userId === userId).sortBy(_.coins.desc).result
   }
 
 }
