@@ -20,10 +20,7 @@ import scala.xml.{Elem, Node}
 
 object TimeLinePage {
 
-  val fakeData = List(TimeLineItem(0, 1593425053417L, 1593425053417L, "read", None),
-    TimeLineItem(1, 1593425053417L, 1593425053417L, "write123456667782344556667", None),
-    TimeLineItem(3, 1593425053417L, 1593425053417L, "rwalking", None))
-  val todayTasks = Var(fakeData)
+  val todayTasks = Var(List[TimeLineItem]())
   val showDetail = Var(-1)
 
   def getTodayTasks():Unit = {
@@ -77,7 +74,7 @@ object TimeLinePage {
     </div>
 
   def app:Node = {
-//    getTodayTasks()
+    getTodayTasks()
     timeLine
   }
 

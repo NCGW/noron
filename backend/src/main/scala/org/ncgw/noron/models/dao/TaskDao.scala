@@ -20,9 +20,14 @@ object TaskDao {
     }
   }
 
-  def getTaskList(userId: Int) = {
-    val q = tTask.filter(_.userId === userId.toLong).map(i =>
+  def getTaskList(userId: Long) = {
+    val q = tTask.filter(_.userId === userId).map(i =>
       (i.taskId, i.startTime, i.endTime, i.taskContent, i.taskImg, i.taskType, i.taskProgress, i.priority)).result
+    db.run(q)
+  }
+
+  def deleteTask(taskId: Long) = {
+    val q = tTask.filter(_.taskId === taskId).delete
     db.run(q)
   }
 }

@@ -19,7 +19,8 @@ trait HttpService extends ResourceService
   with FinishService
   with RankService
   with TaskService
-  with SpeechToTextService{
+  with SpeechToTextService
+  with TimeLineService {
 
   implicit val system: ActorSystem
 

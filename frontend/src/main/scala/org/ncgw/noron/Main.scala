@@ -36,6 +36,9 @@ object Main extends PageSwitcher {
       case "input" :: userId :: Nil =>
         new InputPage(userId.toLong).app
 
+      case _ =>
+        TimeLinePage.app
+
 
     }
 

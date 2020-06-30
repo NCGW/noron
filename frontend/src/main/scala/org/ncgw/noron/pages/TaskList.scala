@@ -25,7 +25,7 @@ object TaskList {
     TaskItem(2,1593425053417L, 1593425053417L, "read", None, 2, 0, 2))
   val taskList = Var(fakeData)
 
-  def getTaskListByUser(userId: Int):Unit = {
+  def getTaskListByUser(userId: Long):Unit = {
     Http.getAndParse[TaskListRsp](Routes.TaskList.getTaskList(userId)).map{
       case Right(rsp) =>
         if(rsp.errCode == 0){
@@ -39,7 +39,7 @@ object TaskList {
     }
   }
 
-  def deleteTask(taskId: Int):Unit = {
+  def deleteTask(taskId: Long):Unit = {
     Http.getAndParse[SuccessRsp](Routes.TaskList.deleteTask(taskId)).map{
       case Right(rsp) =>
         if(rsp.errCode == 0){
