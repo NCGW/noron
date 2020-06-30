@@ -3,7 +3,7 @@ package org.ncgw.noron.pages
 import mhtml._
 import io.circe.generic.auto._
 import io.circe.syntax._
-import org.ncgw.noron.shared.CommonProtocol._
+import org.ncgw.noron.shared.InputProtocol._
 import org.ncgw.noron.shared.TaskStartProtocol.{GetTaskInfoReq, GetTaskInfoRsp, InfoClass}
 import org.ncgw.noron.shared.FinishTaskProtocol._
 import org.ncgw.noron.shared.SuccessRsp
