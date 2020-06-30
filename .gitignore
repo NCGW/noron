@@ -73,7 +73,6 @@ project/plugins/project/
 .logs
 .eventLog
 backend/target
-backend/data
 frontend/target
 shared/target
 shared/.js/target

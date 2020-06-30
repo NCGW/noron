@@ -6,7 +6,7 @@ import org.ncgw.noron.shared.SuccessRsp
 import org.slf4j.LoggerFactory
 import org.ncgw.noron.Boot.executor
 import org.ncgw.noron.models.dao.TaskDao
-import org.ncgw.noron.shared.TaskListProtocol.TaskItem
+import org.ncgw.noron.shared.TaskListProtocol._
 import org.ncgw.noron.utils.CirceSupport
 
 /**
@@ -30,14 +30,15 @@ trait TaskListService extends ServiceUtils with CirceSupport{
     parameter('id.as[Int]){uId =>
       dealFutureResult{
         TaskDao.getTaskList(uId).map{lst =>
-          lst.map(r => TaskItem(r._1, ))
+          val taskList = lst.map(r =>
+            TaskItem(r._1, r._2.getOrElse(0), r._3.getOrElse(0), r._4.getOrElse("暂无内容"), r._5, r._6, r._7, r._8)).toList
+          complete(TaskListRsp(taskList))
         }
-        complete(SuccessRsp())
       }
-      
     }
-
   }
+
+
 
   val route:Route = pathPrefix("timeLine"){
     getTaskList
