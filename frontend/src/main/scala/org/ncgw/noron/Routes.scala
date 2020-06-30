@@ -11,8 +11,8 @@ object Routes {
 
   object ContentRoutes {
 
-    private val baseUrl = base + "/content"
-    val inputContent = baseUrl + "/inputContent"
+    private val baseUrl = base + "/task"
+    val addTask = baseUrl + "/addTask"
 
     val getParseText = baseUrl + "/getParseText"
 
@@ -21,7 +21,7 @@ object Routes {
   object Upload{
     private val baseUrl = base + "/upload"
 
-    val uploadPic = baseUrl + "/uploadPic"
+    val upload = base + s"/uploadFile"
   }
 
   object Finish{
@@ -47,6 +47,19 @@ object Routes {
     val getRank = baseUrl + "/getRank"
 
     val getUserRank = baseUrl + "/getUserRank"
+  }
+
+  object TimeLine{
+    private val baseUrl = base + "/timeLine"
+
+    val getTodayTasks = baseUrl + "/"
+  }
+
+  object TaskList{
+    private val baseUrl = base + "/taskList"
+
+    def getTaskList(uId: Int):String = baseUrl + s"?userId=$uId"
+    def deleteTask(taskId: Int):String = baseUrl + s"delete?taskId=$taskId"
   }
 
 

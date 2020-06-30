@@ -4,6 +4,7 @@ import mhtml.{mount, _}
 import org.ncgw.noron.pages.{InputPage,RankPage}
 import org.ncgw.noron.pages.FinishPage
 import org.ncgw.noron.pages.StartPage
+import org.ncgw.noron.pages._
 import org.scalajs.dom
 import org.ncgw.noron.utils.PageSwitcher
 
@@ -25,8 +26,16 @@ object Main extends PageSwitcher {
         new FinishPage(taskId).app
       case "rank":: userId :: Nil=>
         new RankPage(userId.toLong).app
-      case _ =>
-        InputPage.app
+
+      case "timeLine" :: Nil =>
+        TimeLinePage.app
+
+      case "taskList" :: Nil =>
+        TaskList.app
+
+      case "input" :: userId :: Nil =>
+        new InputPage(userId.toLong).app
+
 
     }
 

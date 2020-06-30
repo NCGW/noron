@@ -3,10 +3,10 @@ package org.ncgw.noron.pages
 import mhtml._
 import io.circe.generic.auto._
 import io.circe.syntax._
-import org.ncgw.norn.shared.CommonProtocol._
-import org.ncgw.norn.shared.TaskStartProtocol.{GetTaskInfoReq, GetTaskInfoRsp, InfoClass}
-import org.ncgw.norn.shared.FinishTaskProtocol._
-import org.ncgw.norn.shared.SuccessRsp
+import org.ncgw.noron.shared.InputProtocol._
+import org.ncgw.noron.shared.TaskStartProtocol.{GetTaskInfoReq, GetTaskInfoRsp, InfoClass}
+import org.ncgw.noron.shared.FinishTaskProtocol._
+import org.ncgw.noron.shared.SuccessRsp
 
 import scala.language.postfixOps
 import org.ncgw.noron.utils.{Http, JsFunc, TimeTool}
