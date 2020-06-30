@@ -78,6 +78,7 @@ shared/target
 shared/.js/target
 shared/.js/.js-shared
 shared/.jvm/target
+.js-shared
 # Created by .ignore support plugin (hsz.mobi)
 */.DS_Store
 *.dylib
