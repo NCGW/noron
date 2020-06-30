@@ -20,7 +20,10 @@ import scala.xml.{Elem, Node}
   */
 object TaskList {
 
-  val taskList = Var(List[TaskItem]())
+  val fakeData = List(TaskItem(0,1593425053417L, 1593425053417L, "read", None, 0, 60, 0),
+    TaskItem(1,1593425053417L, 1593425053417L, "read", None, 1, 50, 1),
+    TaskItem(2,1593425053417L, 1593425053417L, "read", None, 2, 0, 2))
+  val taskList = Var(fakeData)
 
   def getTaskListByUser(userId: Int):Unit = {
     Http.getAndParse[TaskListRsp](Routes.TaskList.getTaskList(userId)).map{
@@ -53,13 +56,13 @@ object TaskList {
 
   def createTaskItem(item: TaskItem):Elem = {
     <div class="tl-taskitem">
-      <img class="tl-delete" src="delete.png" onclick={() =>
+      <img class="tl-delete" src="/noron/static/img/close.png" onclick={() =>
         deleteTask(item.taskId)
       }></img>
       <div class="tl-tasktime">
-        <p>{item.startTime}</p>
-        <p>TO</p>
-        <p>{item.endTime}</p>
+        <p>{TimeTool.DateFormatter(new Date(item.startTime), "hh:mm")}</p>
+        <p style="color:#ffc340;font-size:45px;line-height:50px;">TO</p>
+        <p>{TimeTool.DateFormatter(new Date(item.startTime), "hh:mm")}</p>
       </div>
       <div class="tl-taskcontent">
         {item.content}

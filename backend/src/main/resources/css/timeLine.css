@@ -1,5 +1,6 @@
 .tlp-wrapper{
-    margin: 0 auto;
+    padding: 10px;
+
 }
 
 .tlp-wrapper::after{
@@ -30,7 +31,7 @@
     left: 218px;
     z-index: 1;
     background: #fff;
-    padding: 40px;
+    padding: 30px;
     box-shadow: 0 3px 55px 10px rgba(0, 0, 0, 0.07);
 }
 
@@ -49,7 +50,7 @@
 
 .tlp-simple{
     width: 325px;
-    padding: 40px;
+    padding: 30px;
     border: 3px solid rgba(191, 191, 191, 0.4);
     box-shadow: 0px 3px 55px 10px rgba(0, 0, 0, 0.07);
     position: relative;
@@ -67,11 +68,11 @@
 }
 
 .tlp-item:nth-child(odd)>.tlp-simple::before {
-    left: calc(100% + 60px);
+    left: calc(100% + 72px);
 }
 
 .tlp-item:nth-child(even)>.tlp-simple::before {
-    right: calc(100% + 60px);
+    right: calc(100% + 72px);
 }
 
 .tlp-simple::after{
