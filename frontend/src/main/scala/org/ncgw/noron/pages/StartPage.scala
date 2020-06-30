@@ -8,7 +8,6 @@ package org.ncgw.noron.pages
 import mhtml._
 import io.circe.generic.auto._
 import io.circe.syntax._
-import org.ncgw.noron.shared.CommonProtocol.{ContentInputReq, ContentInputRsp}
 import org.ncgw.noron.shared.TaskStartProtocol._
 import org.ncgw.noron.shared.{CommonRsp, ErrorRsp, SuccessRsp}
 

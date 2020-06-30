@@ -33,8 +33,9 @@ object Main extends PageSwitcher {
       case "taskList" :: Nil =>
         TaskList.app
 
-      case _ =>
-        InputPage.app
+      case "input" :: userId :: Nil =>
+        new InputPage(userId.toLong).app
+
 
     }
 

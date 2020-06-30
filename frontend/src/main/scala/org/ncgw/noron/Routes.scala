@@ -11,8 +11,8 @@ object Routes {
 
   object ContentRoutes {
 
-    private val baseUrl = base + "/content"
-    val inputContent = baseUrl + "/inputContent"
+    private val baseUrl = base + "/task"
+    val addTask = baseUrl + "/addTask"
 
     val getParseText = baseUrl + "/getParseText"
 
@@ -21,7 +21,7 @@ object Routes {
   object Upload{
     private val baseUrl = base + "/upload"
 
-    val uploadPic = baseUrl + "/uploadPic"
+    val upload = base + s"/uploadFile"
   }
 
   object Finish{
