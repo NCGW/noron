@@ -1,7 +1,8 @@
 package org.ncgw.noron
 
 import mhtml.{mount, _}
-import org.ncgw.noron.pages.{InputPage,RankPage}
+import org.ncgw.noron.common.Constant
+import org.ncgw.noron.pages.{InputPage, RankPage}
 import org.ncgw.noron.pages.FinishPage
 import org.ncgw.noron.pages.StartPage
 import org.ncgw.noron.pages._
@@ -51,8 +52,13 @@ object Main extends PageSwitcher {
     mount(dom.document.body, page)
   }
 
+  def initSchedule():Unit = {
+    Constant.fakeUserId = 10001
+  }
+
 
   def main(args: Array[String]): Unit = {
+    initSchedule()
     show()
   }
 

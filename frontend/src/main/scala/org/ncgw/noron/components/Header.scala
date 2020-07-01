@@ -15,6 +15,10 @@ object Header {
     dom.window.location.hash = s"#/rank/${Constant.fakeUserId}"
   }
 
+  def goToList():Unit = {
+    dom.window.location.hash = s"#/taskList"
+  }
+
   val header =
     <div class="header-container">
       <div class="header-logo">
@@ -22,6 +26,7 @@ object Header {
         <p>NORON</p>
       </div>
       <div class="header-op">
+        <img src="/noron/static/img/list.png" onclick={() => goToList()}></img>
         <img src="/noron/static/img/rankfill.png" onclick={() => goToRank()}></img>
         <img src="/noron/static/img/add.png" onclick={() => goToInput()}></img>
       </div>
