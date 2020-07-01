@@ -19,7 +19,8 @@ trait HttpService extends ResourceService
   with FinishService
   with RankService
   with TaskService
-  with SpeechToTextService{
+  with SpeechToTextService
+  with TimeLineService {
 
   implicit val system: ActorSystem
 
@@ -42,7 +43,7 @@ trait HttpService extends ResourceService
       pathPrefix("noron"){
         pathEndOrSingleSlash{
           home
-        } ~ resourceRoutes ~ Start ~ finish ~ parseText ~ rank ~ task
+        } ~ resourceRoutes ~ Start ~ finish ~ parseText ~ rank ~ task ~ timeLineRoute
       }
     }
   }

@@ -132,7 +132,7 @@ class StartPage(Taskid: String) extends Index {
             <div id="u6_text" class="text">
               <p><span>{l.taskType match{
                 case 1=> "AGENDA"
-                case 2=> "ASSIGNMENT"
+                case 2=> "WORK"
                 case 3=> "WISH"}} - {taskid}</span></p>
             </div>
           </div>
