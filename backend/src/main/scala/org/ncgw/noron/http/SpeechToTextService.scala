@@ -45,12 +45,12 @@ trait SpeechToTextService extends ServiceUtils with SessionBase{
         var during = 0l
 
 
-        if(req.taskType == 1){
+        if(req.taskType == 0){
           val r = NLPUtil.parseDate4Agenda(time)
            startTime = r._1
            endTime = r._2
 
-        } else if( req.taskType == 2){
+        } else if( req.taskType == 1){
           val r = NLPUtil.parseDate4Ass(time)
           ddl = r._1
           during = r._2
