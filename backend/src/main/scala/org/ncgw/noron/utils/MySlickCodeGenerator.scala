@@ -20,7 +20,7 @@ object MySlickCodeGenerator {
   val slickDriver = "slick.jdbc.PostgresProfile"
   val jdbcDriver = "org.h2.Driver"
 //  val url = "jdbc:postgresql://10.1.29.247:5432/todos2018"
-  val url = "jdbc:h2:tcp://localhost//D:\\GraduateWorks\\Google-NCGW\\noron\\data\\noron"
+  val url = "jdbc:h2:tcp://localhost//D:\\GraduateWorks\\noron\\data\\noron"
   val outputFolder = "target/gencode/genTablesPsql"
   val pkg = "org.ncgw.noron.models"
   val user = "noron"
