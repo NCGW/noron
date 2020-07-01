@@ -58,8 +58,8 @@ object Routes {
   object TaskList{
     private val baseUrl = base + "/task"
 
-    def getTaskList(uId: Long):String = baseUrl + s"?userId=$uId"
-    def deleteTask(taskId: Long):String = baseUrl + s"delete?taskId=$taskId"
+    def getTaskList(uId: Long):String = baseUrl + s"/all?userId=$uId"
+    def deleteTask(taskId: Long):String = baseUrl + s"/delete?taskId=$taskId"
   }
 
 

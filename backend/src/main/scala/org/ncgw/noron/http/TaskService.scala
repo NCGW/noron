@@ -43,7 +43,7 @@ trait TaskService extends ServiceUtils with SessionBase{
     }
   }
 
-  private val getTaskList = (path("/") & get){
+  private val getTaskList = (path("all") & get){
     parameter('userId.as[Long]){uId =>
       log.debug(s"userId-$uId get taskList")
       dealFutureResult{
@@ -60,7 +60,7 @@ trait TaskService extends ServiceUtils with SessionBase{
     }
   }
 
-  private val deleteTask = (path("/delete") & get){
+  private val deleteTask = (path("delete") & get){
     parameter('taskId.as[Long]){tId =>
       log.debug(s"user delete task-$tId")
       dealFutureResult{

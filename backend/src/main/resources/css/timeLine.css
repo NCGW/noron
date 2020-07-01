@@ -7,7 +7,7 @@
     z-index: -1;
     content: "";
     position: absolute;
-    top: 0;
+    top: 130px;
     bottom: 0;
     left: 50%;
     border-left: 1px solid rgba(191, 191, 191, 0.4);

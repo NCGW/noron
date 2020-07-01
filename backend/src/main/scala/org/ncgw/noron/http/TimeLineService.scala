@@ -20,14 +20,14 @@ trait TimeLineService extends ServiceUtils with CirceSupport {
 
   private val log = LoggerFactory.getLogger(getClass)
 
-  private val getTodayTasks = (path("/") & get){
+  private val getTodayTasks = (pathEndOrSingleSlash & get){
     val fakeData = List(TimeLineItem(0, 1593425053417L, 1593425053417L, "read", None),
       TimeLineItem(1, 1593425053417L, 1593425053417L, "write123456667782344556667", None),
       TimeLineItem(3, 1593425053417L, 1593425053417L, "rwalking", None))
     complete(TodayTasksRsp(fakeData))
   }
 
-  val route:Route = pathPrefix("timeLine"){
+  val timeLineRoute:Route = pathPrefix("timeLine"){
     getTodayTasks
   }
 

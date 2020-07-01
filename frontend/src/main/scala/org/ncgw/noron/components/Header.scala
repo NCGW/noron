@@ -1,18 +1,29 @@
 package org.ncgw.noron.components
 
+import org.ncgw.noron.common.Constant
+import org.scalajs.dom
+
 import scala.xml.Node
 
 object Header {
 
+  def goToInput():Unit = {
+    dom.window.location.hash = s"#/input/${Constant.fakeUserId}"
+  }
+
+  def goToRank():Unit = {
+    dom.window.location.hash = s"#/rank/${Constant.fakeUserId}"
+  }
+
   val header =
     <div class="header-container">
       <div class="header-logo">
-        <img src="logo.png"></img>
-        <p>NNORON</p>
+        <img src="/noron/static/img/dragon.png"></img>
+        <p>NORON</p>
       </div>
-      <div>
-        <img class="header-op" src="rank.png"></img>
-        <img class="header-op" src="add.png"></img>
+      <div class="header-op">
+        <img src="/noron/static/img/rankfill.png" onclick={() => goToRank()}></img>
+        <img src="/noron/static/img/add.png" onclick={() => goToInput()}></img>
       </div>
     </div>
 

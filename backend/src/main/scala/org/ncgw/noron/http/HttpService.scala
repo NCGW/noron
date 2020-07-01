@@ -43,7 +43,7 @@ trait HttpService extends ResourceService
       pathPrefix("noron"){
         pathEndOrSingleSlash{
           home
-        } ~ resourceRoutes ~ Start ~ finish ~ parseText ~ rank ~ task
+        } ~ resourceRoutes ~ Start ~ finish ~ parseText ~ rank ~ task ~ timeLineRoute
       }
     }
   }

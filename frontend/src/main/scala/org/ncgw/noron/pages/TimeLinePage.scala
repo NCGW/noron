@@ -8,6 +8,7 @@ import org.ncgw.noron.utils.{Http, TimeTool}
 import concurrent.ExecutionContext.Implicits.global
 import io.circe.generic.auto._
 import io.circe.syntax._
+import org.ncgw.noron.components.Header
 
 import scala.scalajs.js.Date
 import scala.xml.{Elem, Node}
@@ -75,7 +76,10 @@ object TimeLinePage {
 
   def app:Node = {
     getTodayTasks()
-    timeLine
+    <div>
+      {Header.app}
+      {timeLine}
+    </div>
   }
 
 }
