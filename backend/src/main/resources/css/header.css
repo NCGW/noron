@@ -1,0 +1,45 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.header-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px 50px 40px 50px;
+    border-bottom: 4px solid #ff404b;
+    border-image: linear-gradient(to right, #ffc340, #ff404b) 4;
+}
+
+.header-logo{
+    display: flex;
+    align-items: center;
+}
+
+.header-logo>p{
+    margin: 0;
+    color: #ffc340;
+    font-size: 45px;
+    line-height: 50px;
+    font-family: 'Comic Sans MS Negreta', 'Comic Sans MS Normal', 'Comic Sans MS', sans-serif;
+}
+
+.header-logo>img{
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+.header-op{
+    display: flex;
+    align-items: center;
+}
+
+.header-op>img{
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin-left: 20px;
+}
+

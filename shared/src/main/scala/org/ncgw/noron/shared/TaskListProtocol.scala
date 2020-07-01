@@ -3,7 +3,7 @@ package org.ncgw.noron.shared
 object TaskListProtocol {
 
   case class TaskItem(
-                       taskId: Int,
+                       taskId: Long,
                        startTime: Long,
                        endTime: Long,
                        content: String,
