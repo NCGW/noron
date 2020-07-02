@@ -36,8 +36,17 @@ object InfoDAO {
             case Some(s)=>s
             case None => (0).toLong
           }
-          val duringTime=endTime-startTime
-          InfoClass(taskType,taskID,taskContent,startTime,duringTime,endTime)
+          taskType match{
+            case 0=>
+              val duringTime=endTime-startTime
+              InfoClass(taskType,taskID,taskContent,startTime,duringTime,endTime)
+            case 1=>
+              val duringTime=startTime
+              InfoClass(taskType,taskID,taskContent,endTime-duringTime,duringTime,endTime)
+            case 2=>
+              val duringTime=startTime
+              InfoClass(taskType,taskID,taskContent,System.currentTimeMillis(),duringTime,endTime)
+          }
         }.toList
       }
     } catch {
