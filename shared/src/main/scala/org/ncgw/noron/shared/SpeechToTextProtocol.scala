@@ -9,12 +9,12 @@ object SpeechToTextProtocol {
 
 
   case class GetParseTextReq(
-    taskType: Int, //1： 日程， 2： 任务， 3： 心愿
+    taskType: Int, //0： 日程， 1： 任务， 2： 心愿
     url: String,
   ) extends Request
 
   case class GetParseTextRsp(
-    taskType: Int, //1： 日程， 2： 任务， 3： 心愿
+    taskType: Int, //0： 日程， 1： 任务， 2： 心愿
     taskContent: String,
     startTime: Option[Long],
     endTime: Option[Long],
