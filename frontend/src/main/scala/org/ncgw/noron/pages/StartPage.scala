@@ -131,9 +131,9 @@ class StartPage(Taskid: String) extends Index {
             <div id="u6_div" ></div>
             <div id="u6_text" class="text">
               <p><span>{l.taskType match{
-                case 1=> "AGENDA"
-                case 2=> "WORK"
-                case 3=> "WISH"}} - {taskid}</span></p>
+                case 0=> "AGENDA"
+                case 1=> "WORK"
+                case 2=> "WISH"}} - {taskid}</span></p>
             </div>
           </div>
 
@@ -175,15 +175,19 @@ class StartPage(Taskid: String) extends Index {
                 <div id="u11_div" ></div>
                 <div id="u11_text" class="text ">
                   <p><span>
-                    {((new Date(l.duringTime)).getDate*24+(new Date(l.duringTime)).getHours-32) match{
+                    {(l.duringTime / 1000 / (60 * 60 * 24)) match{
+                      case 0=>""
+                      case other=>other.toString+"d"}}
+                    {(l.duringTime % (1000 *60 * 60 * 24) / (1000*60 * 60)) match{
                       case 0=>""
                       case other=>other.toString+"h"}}
-                    {(new Date(l.duringTime)).getMinutes() match{
+                    {l.duringTime % (1000 *60 * 60) / (1000*60) match{
                       case 0=>""
                       case other=>other.toString+"m"}}
-                    {(new Date(l.duringTime)).getSeconds() match{
+                    {l.duringTime % (1000 *60) / (1000) match{
                       case 0=>""
                       case other=>other.toString+"s"}}
+
                   </span></p>
                 </div>
               </div>
