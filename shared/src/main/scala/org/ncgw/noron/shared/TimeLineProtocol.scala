@@ -7,7 +7,7 @@ package org.ncgw.noron.shared
   */
 object TimeLineProtocol {
   case class TimeLineItem(
-                         taskId: Int,
+                         taskId: Long,
                          startTime: Long,
                          endTime: Long,
                          content: String,
