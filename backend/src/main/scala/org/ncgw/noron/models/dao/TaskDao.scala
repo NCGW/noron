@@ -12,11 +12,11 @@ object TaskDao {
 
   private val log = LoggerFactory.getLogger(this.getClass)
 
-  def addTask(userId: Long, startTime: Long, content: String, taskType: Int, img: String) = db.run{
+  def addTask(userId: Long, startTime: Long, endTime: Long, content: String, taskType: Int, img: String) = db.run{
     if(img == ""){
-      tTask += rTask(0l, userId, Some(content), None, Some(startTime), Some(0l), taskType, 0,0)
+      tTask += rTask(0l, userId, Some(content), None, Some(startTime), Some(endTime), taskType, 0, 0)
     }else{
-      tTask += rTask(0l, userId, Some(content), Some(img), Some(startTime), Some(0l), taskType, 0,0)
+      tTask += rTask(-1l, userId, Some(content), Some(img), Some(startTime), Some(endTime), taskType, 0, 0)
     }
   }
 
