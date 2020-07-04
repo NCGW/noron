@@ -29,7 +29,8 @@ class InputPage(userId : Long) {
 
   def inputContent() : Unit = {
 
-    val time = document.getElementById("startTime").asInstanceOf[Input].value
+    val startTime = document.getElementById("startTime").asInstanceOf[Input].value
+    val endTime = document.getElementById("endTime").asInstanceOf[Input].value
     val content = document.getElementById("content").asInstanceOf[Input].value
     val task = document.getElementById("type").asInstanceOf[Input].value
     val taskType = task match {
@@ -38,15 +39,16 @@ class InputPage(userId : Long) {
       case "心愿" => 2
     }
 
-    if(time == "" || content == "" || task == ""){
+    if(content == "" || task == ""){
       JsFunc.alert("  请输入完整内容！")
     }else{
       val imgs = fileName.toString().drop(4).dropRight(1)
-      val data = AddTaskReq(userId,time.toLong, content, taskType, imgs).asJson.noSpaces
+      val data = AddTaskReq(10001l,startTime.toLong, endTime.toLong, content, taskType, imgs).asJson.noSpaces
 
       Http.postJsonAndParse[SuccessRsp](Routes.ContentRoutes.addTask, data).map {
         case Right(rsp) =>
           if (rsp.errCode == 0) {
+            JsFunc.alert("任务上传成功！")
             println("任务上传成功")
           } else {
             JsFunc.alert("任务上传失败！")
@@ -85,17 +87,21 @@ class InputPage(userId : Long) {
         }
       </div>
 
-      <div style="margin-left: 10%;">
+      <div style="margin-left: 8%;">
         <div>
-          <lable class="label-type">时间</lable>
+          <lable class="label-type">开始时间</lable>
           <input id="startTime" class="input-a" ></input>
         </div>
         <div>
-          <lable class="label-type">任务</lable>
+          <lable class="label-type">结束时间</lable>
+          <input id="endTime" class="input-a" ></input>
+        </div>
+        <div>
+          <lable class="label-type">任务内容</lable>
           <input id="content" class="input-a" ></input>
         </div>
         <div>
-          <lable class="label-type">类型</lable>
+          <lable class="label-type">任务类型</lable>
           <input id="type" class="input-a" ></input>
         </div>
       </div>
