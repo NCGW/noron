@@ -44,4 +44,6 @@ object JsFunc extends js.Object{
 
   def progressBar(str: String, str1: String):Unit = js.native
 
+  def startRecording():Unit = js.native
+
 }

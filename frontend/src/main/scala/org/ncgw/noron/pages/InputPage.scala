@@ -99,7 +99,7 @@ val start = Var(false)
         {
         start.map{
           a =>
-            <button class="voice-button" onclick={()=> if(a == false) {start := true; JsFunc.alert("开始录音")} else
+            <button class="voice-button" onclick={()=> if(a == false) {start := true; JsFunc.alert("开始录音"); JsFunc.startRecording()} else
             {start := false; JsFunc.alert("结束录音，请输入任务类型并提交")} }>
               <img src="/noron/static/img/语音输入.png" style="width:100px;"></img>
             </button>

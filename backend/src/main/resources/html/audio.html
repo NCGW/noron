@@ -236,11 +236,11 @@
         var fd = new FormData();
         var buffer = audioData.getPureWavData(0);
         fd.set('wavData', buffer);
-        fd.set('wavSize', buffer.size);
-        console.log("wavSize: " + buffer.size);
-        document.getElementById('btn-text-content').value = "当前录音长度为：" + buffer.size;
+       // fd.set('wavSize', buffer.size);
+        //console.log("wavSize: " + buffer.size);
+       // document.getElementById('btn-text-content').value = "当前录音长度为：" + buffer.size;
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', url,  false); //async=false,采用同步方式处理
+        xhr.open('POST', url,  true); //async=false,采用同步方式处理
         xhr.onreadystatechange = function(){
           if (xhr.readyState == 4) { //响应数据接收完毕
             callback(xhr.responseText, xhr.status);
@@ -333,7 +333,8 @@
   if(protocolStr == "https:") {
     baseHttpProtocol = "https://";
   }
-  var svrUrl =  baseHttpProtocol + "localhost" + "noron" + "/content/getAudioFile";
+ // var svrUrl =  baseHttpProtocol + "localhost" + "noron" + "/content/getAudioFile";
+  var svrUrl =  "http://localhost:30388/noron/content/getAudioFile";
   console.log(svrUrl);
   //=========================================================================
 
