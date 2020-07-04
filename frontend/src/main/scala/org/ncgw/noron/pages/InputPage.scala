@@ -20,6 +20,7 @@ import org.scalajs.dom.raw.{FileList, FormData}
 class InputPage(userId : Long) {
 
   val fileName = Var("")
+  val typeClass = Var("")
 
   def upload(input: Input): Unit = {
     val uploadName = input.value.split("\\\\").last
@@ -92,57 +93,76 @@ class InputPage(userId : Long) {
 
 val start = Var(false)
   def app: xml.Node = {
-    println("123")
+    dom.window.setInterval(() => typeClass := document.getElementById("type").asInstanceOf[Input].value, 300)
+
     <div>
       <div class="type">
-        <div class="text-input">文字输入</div>
-        {
-        start.map{
-          a =>
-            <button class="voice-button" onclick={()=> if(a == false) {start := true; JsFunc.alert("开始录音"); JsFunc.startRecording()} else
-            {start := false; JsFunc.alert("结束录音，请输入任务类型并提交")} }>
-              <img src="/noron/static/img/语音输入.png" style="width:100px;"></img>
-            </button>
-        }
-        }
-        {
-        fileName.map{
-          img =>
-            if(img == ""){
-              <div class="upload">
-                <img src="/noron/static/img/图片.png" style="width:84px; height:84px"></img>
-                <input type="file" class="pic-input" name="file" onchange={(e: dom.Event) =>upload(e.target.asInstanceOf[Input])}></input>
-              </div>
-            }else{
-              <div class="upload">
-                <img src={img} style="width:84px; height:84px"></img>
-              </div>
-            }
-        }
-        }
+        <div class="text-input">文字输入</div>{start.map {
+        a =>
+          <button class="voice-button" onclick={() =>
+            if (a == false) {
+              start := true; JsFunc.alert("开始录音"); JsFunc.startRecording()
+            } else {
+              start := false; JsFunc.alert("结束录音，请输入任务类型并提交")
+            }}>
+            <img src="/noron/static/img/语音输入.png" style="width:100px;"></img>
+          </button>
+      }}{fileName.map {
+        img =>
+          if (img == "") {
+            <div class="upload">
+              <img src="/noron/static/img/图片.png" style="width:84px; height:84px"></img>
+              <input type="file" class="pic-input" name="file" onchange={(e: dom.Event) => upload(e.target.asInstanceOf[Input])}></input>
+            </div>
+          } else {
+            <div class="upload">
+              <img src={img} style="width:84px; height:84px"></img>
+            </div>
+          }
+      }}
       </div>
 
       <div style="margin-left: 8%;">
         <div>
-          <lable class="label-type">开始时间</lable>
-          <input id="startTime" class="input-a" ></input>
-        </div>
-        <div>
-          <lable class="label-type">结束时间</lable>
-          <input id="endTime" class="input-a" ></input>
-        </div>
-        <div>
           <lable class="label-type">任务内容</lable>
-          <input id="content" class="input-a" ></input>
+          <input id="content" class="input-a"></input>
         </div>
         <div>
           <lable class="label-type">任务类型</lable>
-          <input id="type" class="input-a" ></input>
-        </div>
+          <input id="type" class="input-a"></input>
+        </div>{typeClass.map {
+        t =>
+          if (t == "日程") {
+            <div>
+              <div>
+                <lable class="label-type">开始时间</lable>
+                <input id="startTime" class="input-a"></input>
+              </div>
+              <div>
+                <lable class="label-type">结束时间</lable>
+                <input id="endTime" class="input-a"></input>
+              </div>
+            </div>
+          }
+          else if (t == "任务") {
+            <div>
+              <div>
+                <lable class="label-type">截止时间</lable>
+                <input id="startTime" class="input-a"></input>
+              </div>
+              <div>
+                <lable class="label-type">所需时间</lable>
+                <input id="endTime" class="input-a"></input>
+              </div>
+            </div>
+          } else {
+            <div></div>
+          }
+      }}
       </div>
       <div style="margin-top: 5%;text-align: center;">
-        <button class="confirm" onclick={()=>inputContent()}>上传文字</button>
-        <button class="confirm" style="background: rgba(255, 64, 75, 1);" onclick={()=>uploadContent()}>上传语音</button>
+        <button class="confirm" onclick={() => inputContent()}>上传文字</button>
+        <button class="confirm" style="background: rgba(255, 64, 75, 1);" onclick={() => uploadContent()}>上传语音</button>
       </div>
       <div style="text-align: center;">
         <button class="confirm" style="background: rgba(22, 213, 133, 1);">解析确认</button>
