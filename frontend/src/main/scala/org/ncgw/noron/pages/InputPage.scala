@@ -73,7 +73,7 @@ class InputPage(userId : Long) {
       case "心愿" => 2
     }
 
-      val data = GetParseTextReq(taskType, "/Users/chenzhishuai/IdeaProjects/noron/audio/agenda1.wav").asJson.noSpaces
+      val data = GetParseTextReq(taskType, "/Users/chenzhishuai/Downloads/agenda1.wav").asJson.noSpaces
 
       Http.postJsonAndParse[GetParseTextRsp](Routes.ContentRoutes.getParseText, data).map {
         case Right(rsp) =>
