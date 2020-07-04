@@ -130,7 +130,8 @@ val start = Var(false)
         <div>
           <lable class="label-type">任务类型</lable>
           <input id="type" class="input-a"></input>
-        </div>{typeClass.map {
+        </div>
+        {typeClass.map {
         t =>
           if (t == "日程") {
             <div>
