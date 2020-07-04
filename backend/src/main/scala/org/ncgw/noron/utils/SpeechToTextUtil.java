@@ -136,7 +136,7 @@ public class SpeechToTextUtil {
     // 填写下面信息
     SpeechToTextUtil demo = new SpeechToTextUtil();
 
-    String result = demo.run("./audio/agenda1.pcm");
+    String result = demo.run("./audio/agenda1.wav");
     System.out.println("识别结束：结果是：");
     System.out.println(result);
 
