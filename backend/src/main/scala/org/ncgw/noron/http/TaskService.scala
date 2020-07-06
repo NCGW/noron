@@ -28,7 +28,7 @@ trait TaskService extends ServiceUtils with SessionBase{
     entity(as[Either[Error, AddTaskReq]]) {
       case Right(req) =>
         dealFutureResult {
-          TaskDao.addTask(req.userId, req.startTime, req.content, req.taskType, req.img).map { res =>
+          TaskDao.addTask(req.userId, req.startTime, req.endTime, req.content, req.taskType, req.img).map { res =>
             complete(SuccessRsp())
           }.recover {
             case e: Exception =>

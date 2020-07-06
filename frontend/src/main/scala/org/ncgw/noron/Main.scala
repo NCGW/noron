@@ -21,7 +21,7 @@ object Main extends PageSwitcher {
     println(s"currentPage change to ${ls.mkString(",")}")
 
     ls match {
-      case "Start":: taskid :: Nil=>
+      case "start":: taskid :: Nil=>
         new StartPage(taskid).app
       case "finish":: taskId :: Nil=>
         new FinishPage(taskId).app
@@ -42,9 +42,7 @@ object Main extends PageSwitcher {
 
 
     }
-
   }
-
 
   def show(): Cancelable = {
     switchPageByHash()
@@ -52,13 +50,37 @@ object Main extends PageSwitcher {
     mount(dom.document.body, page)
   }
 
-  def initSchedule():Unit = {
-    Constant.fakeUserId = 10001
+  private var timer = 0
+
+  def initSchedule(times: List[(Long, Long, Long)]):Unit = {
+    dom.window.clearTimeout(timer)
+    val curTask = times.head
+    timer = dom.window.setTimeout(() => schedule(times, 0), curTask._2 - System.currentTimeMillis())
+  }
+
+  def schedule(times: List[(Long, Long, Long)], page:Byte):Unit = { //taskId,startTime,endTime  0->start 1->finish
+    if(times.nonEmpty){
+      println("today's tasks not finish")
+      val curTask = times.head
+      val nextTask = times(1)
+      if(page == 0){
+        goToPage("start", curTask._1)
+        timer = dom.window.setTimeout(() => schedule(times, 1), curTask._3 - System.currentTimeMillis())
+      }else{
+        goToPage("finish", curTask._1)
+        timer = dom.window.setTimeout(() => schedule(times.tail, 0), nextTask._2 - System.currentTimeMillis())
+      }
+    }
+  }
+
+  def goToPage(page: String, taskId: Long):Unit = {
+    dom.window.location.hash = s"#/$page/$taskId"
   }
 
 
   def main(args: Array[String]): Unit = {
-    initSchedule()
+    Constant.fakeUserId = 10001
+    TimeLinePage.getTodayTasks()
     show()
   }
 

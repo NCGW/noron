@@ -5,6 +5,7 @@ object InputProtocol {
   case class AddTaskReq(
                         userId: Long,
                         startTime: Long,
+                        endTime: Long,
                         content: String,
                         taskType: Int,
                         img: String

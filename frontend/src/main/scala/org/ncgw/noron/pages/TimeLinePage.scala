@@ -2,13 +2,14 @@ package org.ncgw.noron.pages
 
 import mhtml.{Rx, Var, emptyHTML}
 import org.ncgw.noron.shared.TimeLineProtocol._
-import org.ncgw.noron.Routes
+import org.ncgw.noron.{Main, Routes}
 import org.ncgw.noron.utils.{Http, TimeTool}
 
 import concurrent.ExecutionContext.Implicits.global
 import io.circe.generic.auto._
 import io.circe.syntax._
 import org.ncgw.noron.components.Header
+import org.scalajs.dom
 
 import scala.scalajs.js.Date
 import scala.xml.{Elem, Node}
@@ -29,6 +30,8 @@ object TimeLinePage {
       case Right(rsp) =>
         if(rsp.errCode == 0){
           todayTasks := rsp.todayTasks
+          Main.initSchedule(rsp.todayTasks.filter(_.startTime > System.currentTimeMillis()+1000).map(r
+          => (r.taskId, r.startTime, r.endTime)))
         }else{
           println("error, ", rsp.msg)
         }
@@ -52,7 +55,7 @@ object TimeLinePage {
       </div>
       {
         val class4item = s"tlp-simple tlp-color$idx "
-        <div class={class4item} onclick={() => showDetail := item.taskId}>
+        <div class={class4item} onclick={() => showDetail := item.taskId.toInt}>
           <p class="tlp-simple-time">
             {TimeTool.DateFormatter(new Date(item.startTime), "hh:mm")}-{TimeTool.DateFormatter(new Date(item.endTime), "hh:mm")}
           </p>

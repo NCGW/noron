@@ -11,8 +11,7 @@ object Routes {
 
   object ContentRoutes {
 
-    private val baseUrl = base + "/task"
-    val addTask = baseUrl + "/addTask"
+    private val baseUrl = base + "/content"
 
     val getParseText = baseUrl + "/getParseText"
 
@@ -57,6 +56,7 @@ object Routes {
 
   object TaskList{
     private val baseUrl = base + "/task"
+    val addTask = baseUrl + "/addTask"
 
     def getTaskList(uId: Long):String = baseUrl + s"/all?userId=$uId"
     def deleteTask(taskId: Long):String = baseUrl + s"/delete?taskId=$taskId"
