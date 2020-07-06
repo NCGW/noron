@@ -34,7 +34,8 @@ object PRIDAO {
           }
           val TN=(100-agenda.taskProgress) * (ET-ST)
           val TC=ST-System.currentTimeMillis()
-          val P=100000*TN/(TC+1)
+//          val TC=ST-"1593630000000".toLong
+          val P=100*TN/(TC+1)
 //          print(ET-ST,ST-System.currentTimeMillis()+1)
 //          println(agenda.taskType,P)
           db.run(
@@ -53,10 +54,10 @@ object PRIDAO {
             case Some(s)=> s
             case None=> 0.toLong
           }
-//          val TC=DDL-System.currentTimeMillis()
-          val TC=DDL-"1593630000000".toLong
+          val TC=DDL-System.currentTimeMillis()
+//          val TC=DDL-"1593630000000".toLong
 //          print(TN,TC)
-          val P=100000*TN/(TC+1)
+          val P=100*TN/(TC+1)
 //          println(work.taskType,P)
           db.run(
             tTask.filter(_.taskId === work.taskId).map(_.priority).update(P.toInt)
@@ -81,8 +82,8 @@ object PRIDAO {
   }
   def getAgendaPRI(userid:Long)= {
     try{
-//      db.run(tTask.filter(_.userId === userid).filter(_.taskType === 0).filter(_.taskProgress =!= 100).filter(_.taskProgress =!= -100).filter(_.startTime >= (System.currentTimeMillis()+86400000)).result).map { agendas =>
-      db.run(tTask.filter(_.userId === userid).filter(_.taskType === 0).filter(_.taskProgress =!= 100).filter(_.taskProgress =!= -100).filter(_.startTime <= ("1593630000000".toLong+86400000)).result).map { agendas =>
+      db.run(tTask.filter(_.userId === userid).filter(_.taskType === 0).filter(_.taskProgress =!= 100).filter(_.taskProgress =!= -100).filter(_.startTime >= (System.currentTimeMillis()+86400000)).result).map { agendas =>
+//      db.run(tTask.filter(_.userId === userid).filter(_.taskType === 0).filter(_.taskProgress =!= 100).filter(_.taskProgress =!= -100).filter(_.startTime <= ("1593630000000".toLong+86400000)).result).map { agendas =>
         agendas.map { agenda =>
           val TCon = agenda.taskContent match {
             case Some(s) => s
@@ -98,8 +99,8 @@ object PRIDAO {
           }
           val DT = ET - ST
 //          println("DDDDDDDDDDDD",DT)
-          ScheduleClass(agenda.taskId, agenda.priority, DT, (ST-"1593630000000".toLong)-5*60*60*1000, (ET-"1593630000000".toLong)-5*60*60*1000,(100-agenda.taskProgress),TCon,agenda.taskImg)
-//          ScheduleClass(agenda.taskId, agenda.priority, DT, (ST-System.currentTimeMillis())-5*60*60*1000, (ET-System.currentTimeMillis())-5*60*60*1000)
+//          ScheduleClass(agenda.taskId, agenda.priority, DT, (ST-"1593630000000".toLong)-5*60*60*1000, (ET-"1593630000000".toLong)-5*60*60*1000,(100-agenda.taskProgress),TCon,agenda.taskImg)
+          ScheduleClass(agenda.taskId, agenda.priority, DT, (ST-System.currentTimeMillis())-5*60*60*1000, (ET-System.currentTimeMillis())-5*60*60*1000,(100-agenda.taskProgress),TCon,agenda.taskImg)
         }.toList
       }
     } catch {
@@ -117,7 +118,7 @@ object PRIDAO {
             case Some(s) => s
             case None => ""
           }
-          val ST = work.startTime match {
+          val DT = work.startTime match {
             case Some(s) => s
             case None => 0.toLong
           }
@@ -125,11 +126,10 @@ object PRIDAO {
             case Some(s) => s
             case None => 0.toLong
           }
-          val DT = ET - ST
           //          println("DDDDDDDDDDDD",DT)
-          ScheduleClass(work.taskId, work.priority, DT, (ST-"1593630000000".toLong)-5*60*60*1000, (ET-"1593630000000".toLong)-5*60*60*1000,(100-work.taskProgress),TCon,work.taskImg)
-          //          ScheduleClass(agenda.taskId, agenda.priority, DT, (ST-System.currentTimeMillis())-5*60*60*1000, (ET-System.currentTimeMillis())-5*60*60*1000)
-        }.toList
+//          ScheduleClass(work.taskId, work.priority, DT, -3000000, (ET-"1593630000000".toLong)-5*60*60*1000,(100-work.taskProgress),TCon,work.taskImg)
+          ScheduleClass(work.taskId, work.priority, DT, -3000000, (ET-System.currentTimeMillis())-5*60*60*1000,(100-work.taskProgress),TCon,work.taskImg)
+        }.toList.reverse
       }
     } catch {
       case e: Throwable=>

@@ -43,9 +43,11 @@ object Boot extends HttpService {
       case Success(b) ⇒
         val localAddress = b.localAddress
         println(s"Server is listening on ${localAddress.getHostName}:${localAddress.getPort}")
-//        utils.NLPUtil.main(args)
-        system.scheduler.schedule(15 seconds, 18 seconds) {
+        system.scheduler.schedule(0 seconds, 1 days) {
           models.dao.PRIDAO.renewPRI
+        }
+        system.scheduler.schedule(10 seconds, 1 days) {
+          utils.PRIUtil.priority
         }
       case Failure(e) ⇒
         println(s"Binding failed with ${e.getMessage}")
