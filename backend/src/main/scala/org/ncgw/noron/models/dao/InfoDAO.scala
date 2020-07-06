@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import org.ncgw.noron.utils.PRIUtil.schedule
 
 /**
   * User: WYN
@@ -17,6 +18,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object InfoDAO {
   private val log = LoggerFactory.getLogger(this.getClass)
   private val tTask = SlickTables.tTask
+
+  def getInfoByTaskidFromPRI(taskid:Long)={
+    schedule.filter(_.taskid == taskid).map {sch=>
+      InfoClass(sch.tasktype, sch.taskid, sch.content, sch.startTime+System.currentTimeMillis()/86400000*86400000, sch.duringTime, sch.endTime+System.currentTimeMillis()/86400000*86400000)
+    }
+  }
 
   def getInfoByTaskid(taskid:Long)={
     try{
