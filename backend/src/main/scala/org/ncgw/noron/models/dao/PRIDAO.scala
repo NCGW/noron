@@ -19,7 +19,7 @@ object PRIDAO {
   private val log = LoggerFactory.getLogger(this.getClass)
   private val tUser = SlickTables.tUser
   private val tTask = SlickTables.tTask
-  case class ScheduleClass(taskid:Long,priority:Int,duringTime:Long,startTime:Long,endTime:Long,UNprocess:Int,content:String,Image:Option[String])
+  case class ScheduleClass(tasktype:Int,taskid:Long,priority:Int,duringTime:Long,startTime:Long,endTime:Long,UNprocess:Int,content:String,Image:Option[String])
   def renewPRI={
     try{
       db.run(tTask.filter(_.taskType === 0).filter(_.taskProgress =!= 100).filter(_.taskProgress =!= -100).result).map { agendas =>
@@ -82,7 +82,7 @@ object PRIDAO {
   }
   def getAgendaPRI(userid:Long)= {
     try{
-      db.run(tTask.filter(_.userId === userid).filter(_.taskType === 0).filter(_.taskProgress =!= 100).filter(_.taskProgress =!= -100).filter(_.startTime >= (System.currentTimeMillis()+86400000)).result).map { agendas =>
+      db.run(tTask.filter(_.userId === userid).filter(_.taskType === 0).filter(_.taskProgress =!= 100).filter(_.taskProgress =!= -100).filter(_.startTime >= (System.currentTimeMillis())).result).map { agendas =>
 //      db.run(tTask.filter(_.userId === userid).filter(_.taskType === 0).filter(_.taskProgress =!= 100).filter(_.taskProgress =!= -100).filter(_.startTime <= ("1593630000000".toLong+86400000)).result).map { agendas =>
         agendas.map { agenda =>
           val TCon = agenda.taskContent match {
@@ -100,7 +100,7 @@ object PRIDAO {
           val DT = ET - ST
 //          println("DDDDDDDDDDDD",DT)
 //          ScheduleClass(agenda.taskId, agenda.priority, DT, (ST-"1593630000000".toLong)-5*60*60*1000, (ET-"1593630000000".toLong)-5*60*60*1000,(100-agenda.taskProgress),TCon,agenda.taskImg)
-          ScheduleClass(agenda.taskId, agenda.priority, DT, (ST-System.currentTimeMillis())-5*60*60*1000, (ET-System.currentTimeMillis())-5*60*60*1000,(100-agenda.taskProgress),TCon,agenda.taskImg)
+          ScheduleClass(agenda.taskType,agenda.taskId, agenda.priority, DT, (ST-System.currentTimeMillis())-5*60*60*1000, (ET-System.currentTimeMillis())-5*60*60*1000,(100-agenda.taskProgress),TCon,agenda.taskImg)
         }.toList
       }
     } catch {
@@ -111,8 +111,8 @@ object PRIDAO {
   }
   def getWorkPRI(userid:Long)= {
     try{
-      //      db.run(tTask.filter(_.userId === userid).filter(_.taskType === 0).filter(_.taskProgress =!= 100).filter(_.taskProgress =!= -100).filter(_.startTime >= (System.currentTimeMillis()+86400000)).result).map { agendas =>
-      db.run(tTask.filter(_.userId === userid).filter(_.taskType === 1).filter(_.taskProgress =!= 100).filter(_.taskProgress =!= -100).sortBy(_.priority).result).map { works =>
+      db.run(tTask.filter(_.userId === userid).filter(_.taskType === 1).filter(_.taskProgress =!= 100).filter(_.taskProgress =!= -100).filter(_.endTime >= (System.currentTimeMillis())).sortBy(_.priority).result).map { works =>
+//      db.run(tTask.filter(_.userId === userid).filter(_.taskType === 1).filter(_.taskProgress =!= 100).filter(_.taskProgress =!= -100).sortBy(_.priority).result).map { works =>
         works.map { work =>
           val TCon = work.taskContent match {
             case Some(s) => s
@@ -128,7 +128,7 @@ object PRIDAO {
           }
           //          println("DDDDDDDDDDDD",DT)
 //          ScheduleClass(work.taskId, work.priority, DT, -3000000, (ET-"1593630000000".toLong)-5*60*60*1000,(100-work.taskProgress),TCon,work.taskImg)
-          ScheduleClass(work.taskId, work.priority, DT, -3000000, (ET-System.currentTimeMillis())-5*60*60*1000,(100-work.taskProgress),TCon,work.taskImg)
+          ScheduleClass(work.taskType,work.taskId, work.priority, DT, -3000000, (ET-System.currentTimeMillis())-5*60*60*1000,(100-work.taskProgress),TCon,work.taskImg)
         }.toList.reverse
       }
     } catch {

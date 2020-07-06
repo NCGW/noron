@@ -8,7 +8,8 @@ import org.slf4j.LoggerFactory
 import org.ncgw.noron.shared.TaskStartProtocol._
 import org.ncgw.noron.shared.CommonRsp
 import org.ncgw.noron.models.dao.InfoDAO
-import org.ncgw.noron.protocols.{SuccessRsp, parseError,ErrorRsp}
+import org.ncgw.noron.protocols.{ErrorRsp, SuccessRsp, parseError}
+import org.ncgw.noron.utils.PRIUtil.schedule
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -37,15 +38,16 @@ trait StartService extends ServiceUtils with SessionBase{
         complete(parseError)
       case Right(req) =>
 //        println("okkkkkkkkkkkkkkk2")
-        dealFutureResult(
-          InfoDAO.getInfoByTaskid(req.taskid).map{info=>
-            if(info.isEmpty){
-              complete(ErrorRsp(100102,"task is not exist"))
-            }else{
-              complete(GetTaskInfoRsp(info))
-            }
-          }
-        )
+        complete(GetTaskInfoRsp(InfoDAO.getInfoByTaskidFromPRI(req.taskid)))
+//        dealFutureResult(
+//          InfoDAO.getInfoByTaskid(req.taskid).map{info=>
+//            if(info.isEmpty){
+//              complete(ErrorRsp(100102,"task is not exist"))
+//            }else{
+//              complete(GetTaskInfoRsp(info))
+//            }
+//          }
+//        )
     }
   }
 

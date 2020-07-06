@@ -46,7 +46,7 @@ object Boot extends HttpService {
         system.scheduler.schedule(0 seconds, 1 days) {
           models.dao.PRIDAO.renewPRI
         }
-        system.scheduler.schedule(10 seconds, 1 days) {
+        system.scheduler.schedule(3 seconds, 1 days) {
           utils.PRIUtil.priority
         }
       case Failure(e) ⇒

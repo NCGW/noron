@@ -45,19 +45,19 @@ object PRIUtil {
   )
 
   var schedule_today=List(TimeLineItem(-1, 0, 0, "", None))
+  var schedule=List(ScheduleClass(-1,-1,-1,4*60*60*1000,format.parse("3:00").getTime(),format.parse("7:00").getTime(),0,"",None))
 
   def priority={
-    val userID=10002
+    val userID=10001
     var spaceTime=TimeList
-    var schedule=List(ScheduleClass(-1,-1,4*60*60*1000,format.parse("3:00").getTime(),format.parse("7:00").getTime(),0,"",None))
     val agandaT = PRIDAO.getAgendaPRI(userID.toLong)
-    Thread.sleep(1000)
+    Thread.sleep(2000)
     agandaT.foreach{agandas=>
        agandas.foreach{aganda=>
          println("AGENDA:",aganda)
          schedule :+= aganda    //把日程加入时间表
 //         println(aganda,schedule)
-         var flag=0;
+         var flag=0
          spaceTime.foreach{time=>
            val index=spaceTime.indexOf(time)
            if((aganda.startTime >= time.startTime && aganda.startTime<=time.endTime) || flag==1){
@@ -139,24 +139,28 @@ object PRIUtil {
 //    println("spaceTime:",spaceTime)
 //    println("spacetime_st:",spacetime_st)
     val workT=PRIDAO.getWorkPRI(userID.toLong)
-    Thread.sleep(1000)
+    Thread.sleep(2000)
+    println(agandaT)
+    println(workT)
     workT.foreach { works =>
-      works.foreach { work =>
+      println(works)
+      for(work <- works) {
         println("WORK:",work)
         val TN = work.UNprocess * work.duringTime / 100
         val DDL = work.endTime
         val P = work.priority
+        var flag=1
         if (P > 50) {
           for (time <- spacetime_p){
-            println("TIME:",time)
+//            println("TIME:",time)
 //            println("spaceTime:",spaceTime)
             val timeinTime=spaceTime find( _.startTime == time.startTime) match{
               case Some(s)=>s
               case other=>TimeforWork(-1,0,0,0)
             }
             val index=spaceTime.indexOf(timeinTime)
-            println("Index:",index)
-            if (time.priority >= 4) {
+//            println("Index:",index)
+            if (time.priority >= 4  && flag==1) {
               if (time.duringTime >= TN) { //case1:空闲时间足够安排，从头开始，直接安排
                 println("case1")
 //                println("spacetime_p1",spacetime_p)
@@ -164,14 +168,14 @@ object PRIUtil {
                 val st_sche = time.startTime
                 val dt_sche = TN
                 val et_sche = st_sche + dt_sche
-                schedule :+= ScheduleClass(work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成100%", work.Image)
+                schedule :+= ScheduleClass(work.tasktype,work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成100%", work.Image)
                 //更新空闲时间
                 val st_space = et_sche
                 val et_space = time.endTime
                 val dt_space = et_space - st_space
                 if (dt_space != 0) { //更新
-                  print(dt_sche,st_sche,et_sche)
-                  println(dt_space,st_space,et_space)
+//                  print(dt_sche,st_sche,et_sche)
+//                  println(dt_space,st_space,et_space)
                   val newspaceT = TimeforWork(time.priority, dt_space, st_space, et_space)
                   spaceTime = spaceTime.updated(index, newspaceT)
                   spaceTime.sortBy(_.startTime)
@@ -187,23 +191,23 @@ object PRIUtil {
                   spacetime_p = spaceTime.sortBy(_.priority).reverse
                 }
 //                println("spacetime_p2:",spacetime_p)
-                break
+                flag=0
               }
-              else if (time.duringTime >= TN * 0.4) { //case2:空闲时间够安排40%,先安排40%,更新work
+              else if (time.duringTime >= TN * 0.4  && flag==1) { //case2:空闲时间够安排40%,先安排40%,更新work
                 println("case2")
                 //加入日程表
                 val st_sche = time.startTime
                 val dt_sche = TN * 0.4.toLong
                 val et_sche = st_sche + dt_sche
-                schedule :+= ScheduleClass(work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成40%", work.Image)
+                schedule :+= ScheduleClass(work.tasktype,work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成40%", work.Image)
                 //更新空闲时间
                 val st_space = time.startTime + et_sche
                 val et_space = time.endTime
                 val dt_space = et_space - st_space
 
                 if (dt_space != 0) { //更新
-                  print(dt_sche,st_sche,et_sche)
-                  println(dt_space,st_space,et_space)
+//                  print(dt_sche,st_sche,et_sche)
+//                  println(dt_space,st_space,et_space)
                   val newspaceT = TimeforWork(time.priority, dt_space, st_space, et_space)
                   spaceTime = spaceTime.updated(index, newspaceT)
                   spaceTime.sortBy(_.startTime)
@@ -218,19 +222,19 @@ object PRIUtil {
                   spacetime_st = spaceTime
                   spacetime_p = spaceTime.sortBy(_.priority).reverse
                 }
-                break
+                flag=0
               }
               else { //空闲时间能够安排不够40%
                 val ndtb = time.duringTime + spacetime_st(index + 1).duringTime //与后一时间段连接起来
-              val ndtf = time.duringTime + spacetime_st(index - 1).duringTime //与前一时间段连接起来
-              val ndt = time.duringTime + spacetime_st(index - 1).duringTime + spacetime_st(index + 1).duringTime //与前后时间段连接起来
-                if (ndtb >= 0.4 * TN && time.endTime == spacetime_st(index + 1).startTime) { //case3:与后一时间段连接起来达到40%，安排
+                val ndtf = time.duringTime + spacetime_st(index - 1).duringTime //与前一时间段连接起来
+                val ndt = time.duringTime + spacetime_st(index - 1).duringTime + spacetime_st(index + 1).duringTime //与前后时间段连接起来
+                if (ndtb >= 0.4 * TN && time.endTime == spacetime_st(index + 1).startTime  && flag==1) { //case3:与后一时间段连接起来达到40%，安排
                   println("case3")
                   //加入日程表
                   val st_sche = time.startTime
                   val dt_sche = TN * 0.4.toLong
                   val et_sche = st_sche + dt_sche
-                  schedule :+= ScheduleClass(work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成40%", work.Image)
+                  schedule :+= ScheduleClass(work.tasktype,work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成40%", work.Image)
                   //更新空闲时间
                   //更新前一段为空
                   val newspaceT1 = TimeforWork(-1, 0, -300000000, time.startTime)
@@ -261,16 +265,16 @@ object PRIUtil {
                     spacetime_st = spaceTime
                     spacetime_p = spaceTime.sortBy(_.priority).reverse
                   }
-                  break
+                  flag=0
                 }
-                else if (ndtf >= 0.4 * TN && time.startTime == spacetime_st(index - 1).endTime) { //case4:与前一时间段连接起来达到40%，安排40%
+                else if (ndtf >= 0.4 * TN && time.startTime == spacetime_st(index - 1).endTime  && flag==1) { //case4:与前一时间段连接起来达到40%，安排40%
                   println("case4")
                   //加入日程表
                   val dt_sche = TN * 0.4.toLong
                   //                    val st_sche=spacetime_st(index-1).endTime-(dt_sche-time.duringTime)
                   val st_sche = time.endTime - dt_sche
                   val et_sche = time.endTime
-                  schedule :+= ScheduleClass(work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成40%", work.Image)
+                  schedule :+= ScheduleClass(work.tasktype,work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成40%", work.Image)
                   //更新空闲时间
                   //更新后一段为空
                   val newspaceT1 = TimeforWork(-1, 0, -300000000, -300000000)
@@ -299,9 +303,9 @@ object PRIUtil {
                     spacetime_st = spaceTime
                     spacetime_p = spaceTime.sortBy(_.priority).reverse
                   }
-                  break
+                  flag=0
                 }
-                else if (ndt >= 0.4 * TN && time.startTime == spacetime_st(index - 1).endTime && time.endTime == spacetime_st(index + 1).startTime) {
+                else if (ndt >= 0.4 * TN && time.startTime == spacetime_st(index - 1).endTime && time.endTime == spacetime_st(index + 1).startTime  && flag==1) {
                   //case5:与前后时间段连接起来达到40%，安排
                   println("case5")
                   //加入日程表
@@ -309,7 +313,7 @@ object PRIUtil {
                   val et_sche = spacetime_st(index + 1).endTime
                   //val st_sche=spacetime_st(index-1).endTime-(dt_sche-time.duringTime)
                   val st_sche = et_sche - dt_sche
-                  schedule :+= ScheduleClass(work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成40%", work.Image)
+                  schedule :+= ScheduleClass(work.tasktype,work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成40%", work.Image)
                   //更新空闲时间
                   //更新中间一段为空
                   val newspaceT1 = TimeforWork(-1, 0, -300000000, -300000000)
@@ -341,16 +345,16 @@ object PRIUtil {
                     spacetime_st = spaceTime
                     spacetime_p = spaceTime.sortBy(_.priority).reverse
                   }
-                  break
+                  flag=0
                 }
-                else { //case6:合并前后时间段仍不能完成40%以上，则将核心工作时间排满，完成多少算多少
+                else if(flag==1) { //case6:合并前后时间段仍不能完成40%以上，则将核心工作时间排满，完成多少算多少
                   println("case6")
                   //加入日程表
                   val dt_sche = time.duringTime
                   val st_sche = time.startTime
                   val et_sche = time.endTime
                   val expP = (100 * dt_sche / TN ).toString
-                  schedule :+= ScheduleClass(work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成" + expP + "%", work.Image)
+                  schedule :+= ScheduleClass(work.tasktype,work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成" + expP + "%", work.Image)
                   //更新空闲时间,直接删除该时间段
                   val newspaceT = TimeforWork(-1, 0, -300000000, -300000000)
                   spaceTime = spaceTime.updated(index, newspaceT)
@@ -359,11 +363,11 @@ object PRIUtil {
                   //更新
                   spacetime_st = spaceTime
                   spacetime_p = spaceTime.sortBy(_.priority).reverse
-                  break
+                  flag=0
                 }
               }
             }
-            else if (time.priority >= 2) {
+            else if (time.priority >= 2  && flag==1) {
               val index = spacetime_st.indexOf(time)
               if (time.duringTime >= TN) { //case7:空闲时间足够安排，直接安排
                 println("case7")
@@ -371,7 +375,7 @@ object PRIUtil {
                 val st_sche = time.startTime
                 val dt_sche = TN
                 val et_sche = st_sche + dt_sche
-                schedule :+= ScheduleClass(work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成100%", work.Image)
+                schedule :+= ScheduleClass(work.tasktype,work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成100%", work.Image)
                 //更新空闲时间
                 val st_space = time.startTime + et_sche
                 val et_space = time.endTime
@@ -392,15 +396,15 @@ object PRIUtil {
                   spacetime_st = spaceTime
                   spacetime_p = spaceTime.sortBy(_.priority).reverse
                 }
-                break
+                flag=0
               }
-              else { //case8:空闲时间不够，能排多少排多少
+              else if( flag==1){ //case8:空闲时间不够，能排多少排多少
                 println("case8")
                 val dt_sche = time.duringTime
                 val st_sche = time.startTime
                 val et_sche = time.endTime
                 val expP = (100 * dt_sche / TN ).toString
-                schedule :+= ScheduleClass(work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成" + expP + "%", work.Image)
+                schedule :+= ScheduleClass(work.tasktype,work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成" + expP + "%", work.Image)
                 //更新空闲时间,直接删除该时间段
                 val newspaceT = TimeforWork(-1, 0, -300000000, -300000000)
                 spaceTime = spaceTime.updated(index, newspaceT)
@@ -409,7 +413,7 @@ object PRIUtil {
                 //更新
                 spacetime_st = spaceTime
                 spacetime_p = spaceTime.sortBy(_.priority).reverse
-                break
+                flag=0
               }
             }
           }
@@ -417,14 +421,14 @@ object PRIUtil {
         else { //紧急任务都排完了，核心时间有空余，安排低级别任务
           spacetime_p.foreach { time =>
             val index = spaceTime.indexOf(time)
-            if (time.priority >= 5 && time.duringTime >= 10 * 60 * 60 * 1000) {
-              if (time.duringTime >= TN) { //case9:空闲时间足够安排，直接安排
+            if (time.priority >= 5 && time.duringTime >= 10 * 60 * 1000 && flag==1) {
+              if (time.duringTime >= TN ) { //case9:空闲时间足够安排，直接安排
                 println("case9")
                 //加入日程表
                 val st_sche = time.startTime
                 val dt_sche = TN
                 val et_sche = st_sche + dt_sche
-                schedule :+= ScheduleClass(work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成100%", work.Image)
+                schedule :+= ScheduleClass(work.tasktype,work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成100%", work.Image)
                 //更新空闲时间
                 val st_space = time.startTime + et_sche
                 val et_space = time.endTime
@@ -445,15 +449,15 @@ object PRIUtil {
                   spacetime_st = spaceTime
                   spacetime_p = spaceTime.sortBy(_.priority).reverse
                 }
-                break
+                flag=0
               }
-              else { //case10:空闲时间不够，能排多少排多少
+              else if(flag==1){ //case10:空闲时间不够，能排多少排多少
                 println("case10")
                 val dt_sche = time.duringTime
                 val st_sche = time.startTime
                 val et_sche = time.endTime
                 val expP = (100 * dt_sche / TN ).toString
-                schedule :+= ScheduleClass(work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成" + expP + "%", work.Image)
+                schedule :+= ScheduleClass(work.tasktype,work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成" + expP + "%", work.Image)
                 //更新空闲时间,直接删除该时间段
                 val newspaceT = TimeforWork(-1, 0, -300000000, -300000000)
                 spaceTime = spaceTime.updated(index, newspaceT)
@@ -462,18 +466,19 @@ object PRIUtil {
                 //更新
                 spacetime_st = spaceTime
                 spacetime_p = spaceTime.sortBy(_.priority).reverse
-                break
+                flag=0
               }
             }
           }
         }
       }
     }
-    Thread.sleep(1000*5)
+    Thread.sleep(1000*10)
 //    println("1111111111",schedule)
 //    println("2222222222",spaceTime)
 //    print(agandaT)
-    schedule_today=schedule.filter(_.taskid != -1).map{sch=>
+
+    schedule_today=schedule.filter(_.taskid != -1).sortBy(_.startTime).map{sch=>
       println("SCHEDULE:",sch)
       TimeLineItem(sch.taskid.toInt,sch.startTime,sch.endTime,sch.content,sch.Image)
     }
