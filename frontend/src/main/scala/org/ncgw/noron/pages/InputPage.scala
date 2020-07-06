@@ -10,6 +10,7 @@ import org.ncgw.noron.shared.SuccessRsp
 import scala.language.postfixOps
 import org.ncgw.noron.utils.{Http, JsFunc, TimeTool}
 import org.ncgw.noron.Routes
+import org.ncgw.noron.common.Constant
 
 import concurrent.ExecutionContext.Implicits.global
 import org.scalajs.dom
@@ -57,7 +58,7 @@ class InputPage(userId : Long) {
       JsFunc.alert("  请输入完整内容！")
     }else{
       val imgs = fileName.toString().drop(4).dropRight(1)
-      val data = AddTaskReq(10001l,startTime, endTime.toLong, content, taskType, imgs).asJson.noSpaces
+      val data = AddTaskReq(Constant.fakeUserId,startTime, endTime.toLong, content, taskType, imgs).asJson.noSpaces
 
       Http.postJsonAndParse[SuccessRsp](Routes.TaskList.addTask, data).map {
         case Right(rsp) =>

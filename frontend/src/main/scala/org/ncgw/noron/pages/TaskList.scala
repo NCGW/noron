@@ -54,6 +54,10 @@ object TaskList {
     }
   }
 
+  def calPriority(pri: Int) = {
+    if(pri > 100) "高" else "低"
+  }
+
   def createTaskItem(item: TaskItem):Elem = {
     <div class="tl-taskitem">
       <img class="tl-delete" src="/noron/static/img/close.png" onclick={() =>
@@ -69,7 +73,7 @@ object TaskList {
       </div>
       <div class="tl-taskpro">
         <p>{Constant.taskTypeMap(item.taskType)}</p>
-        <p>{Constant.priorityMap(item.priority)}</p>
+        <p>{calPriority(item.priority)}</p>
         <p>{item.taskProgress}%</p>
       </div>
     </div>

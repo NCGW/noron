@@ -65,7 +65,7 @@ trait TaskService extends ServiceUtils with SessionBase{
       log.debug(s"user delete task-$tId")
       dealFutureResult{
         TaskDao.deleteTask(tId).map{_ =>
-          complete(SuccessRsp)
+          complete(SuccessRsp())
         }.recover{
           case e:Exception =>
             log.error(s"delete task error, $e")

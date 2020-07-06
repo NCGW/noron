@@ -79,7 +79,7 @@ object Main extends PageSwitcher {
 
 
   def main(args: Array[String]): Unit = {
-    Constant.fakeUserId = 10001
+    Constant.fakeUserId = 20001
     TimeLinePage.getTodayTasks()
     show()
   }
