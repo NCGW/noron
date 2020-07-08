@@ -6,10 +6,13 @@ import io.circe.generic.auto._
 import io.circe.syntax._
 import org.ncgw.noron.shared.RankProtocol._
 import org.ncgw.noron.shared.SuccessRsp
+
 import scala.language.postfixOps
 import org.ncgw.noron.utils.Http
 import org.ncgw.noron.Routes
+import org.ncgw.noron.components.Header
 import org.ncgw.noron.utils.JsFunc
+
 import concurrent.ExecutionContext.Implicits.global
 import org.scalajs.dom
 import org.scalajs.dom.html.Input
@@ -61,6 +64,10 @@ class RankPage(userId: Long) extends Index {
   def app: xml.Node = {
     getRank()
     getUserRank()
+    <div>
+    <div>
+      {Header.app}
+    </div>
 
     <div>
       <div class="my-swiper">
@@ -111,6 +118,7 @@ class RankPage(userId: Long) extends Index {
           }
       }
       }
+    </div>
     </div>
   }
 

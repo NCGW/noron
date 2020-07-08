@@ -3,12 +3,15 @@ package org.ncgw.noron.pages
 import mhtml.{Var, emptyHTML}
 import org.ncgw.noron.Routes
 import org.ncgw.noron.utils.{Http, TimeTool}
+
 import concurrent.ExecutionContext.Implicits.global
 import io.circe.generic.auto._
 import io.circe.syntax._
 import org.ncgw.noron.shared.SuccessRsp
 import org.ncgw.noron.shared.TaskListProtocol._
 import org.ncgw.noron.common.Constant
+import org.ncgw.noron.components.Header
+
 import scala.scalajs.js.Date
 import scala.xml.{Elem, Node}
 
@@ -54,6 +57,10 @@ object TaskList {
     }
   }
 
+  def calPriority(pri: Int) = {
+    if(pri > 100) "高" else "低"
+  }
+
   def createTaskItem(item: TaskItem):Elem = {
     <div class="tl-taskitem">
       <img class="tl-delete" src="/noron/static/img/close.png" onclick={() =>
@@ -62,14 +69,14 @@ object TaskList {
       <div class="tl-tasktime">
         <p>{TimeTool.DateFormatter(new Date(item.startTime), "hh:mm")}</p>
         <p style="color:#ffc340;font-size:45px;line-height:50px;">TO</p>
-        <p>{TimeTool.DateFormatter(new Date(item.startTime), "hh:mm")}</p>
+        <p>{TimeTool.DateFormatter(new Date(item.endTime), "hh:mm")}</p>
       </div>
       <div class="tl-taskcontent">
         {item.content}
       </div>
       <div class="tl-taskpro">
         <p>{Constant.taskTypeMap(item.taskType)}</p>
-        <p>{Constant.priorityMap(item.priority)}</p>
+        <p>{calPriority(item.priority)}</p>
         <p>{item.taskProgress}%</p>
       </div>
     </div>
@@ -77,6 +84,9 @@ object TaskList {
 
   val taskContent =
     <div>
+      <div>
+        {Header.app}
+      </div>
       {taskList.map{lst =>
         if(lst.isEmpty){
           emptyHTML

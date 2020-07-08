@@ -3,6 +3,7 @@ package org.ncgw.noron.pages
 import mhtml._
 import io.circe.generic.auto._
 import io.circe.syntax._
+import org.ncgw.noron.components.Header
 import org.ncgw.noron.shared.InputProtocol._
 import org.ncgw.noron.shared.TaskStartProtocol.{GetTaskInfoReq, GetTaskInfoRsp, InfoClass}
 import org.ncgw.noron.shared.FinishTaskProtocol._
@@ -93,6 +94,10 @@ class FinishPage (TaskId: String) extends Index {
   def app: xml.Node = {
     getINFO(taskId);
     <div>
+    <div>
+      {Header.app}
+    </div>
+    <div>
       {info.map {
       case Nil =>
         <div class="finish_content">
@@ -175,7 +180,7 @@ class FinishPage (TaskId: String) extends Index {
         </div>
       </div>
     </div>
-
+    </div>
 
   }
 

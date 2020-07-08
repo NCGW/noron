@@ -6,16 +6,20 @@ import io.circe.syntax._
 import org.ncgw.noron.shared.InputProtocol.{AddTaskReq, uploadSuccessRsp}
 import org.ncgw.noron.shared.SpeechToTextProtocol._
 import org.ncgw.noron.shared.SuccessRsp
+
 import scala.language.postfixOps
-import org.ncgw.noron.utils.Http
+import org.ncgw.noron.utils.{Http, JsFunc, TimeTool}
 import org.ncgw.noron.Routes
-import org.ncgw.noron.utils.JsFunc
+import org.ncgw.noron.common.Constant
+import org.ncgw.noron.components.Header
 
 import concurrent.ExecutionContext.Implicits.global
 import org.scalajs.dom
 import org.scalajs.dom.document
-import org.scalajs.dom.html.Input
-import org.scalajs.dom.raw.{FileList, FormData}
+import org.scalajs.dom.html.{Input, Select}
+import org.scalajs.dom.raw.Event
+
+import scala.scalajs.js.Date
 
 class InputPage(userId : Long) {
 
@@ -31,21 +35,31 @@ class InputPage(userId : Long) {
 
   def inputContent() : Unit = {
 
-    val startTime = document.getElementById("startTime").asInstanceOf[Input].value
-    val endTime = document.getElementById("endTime").asInstanceOf[Input].value
     val content = document.getElementById("content").asInstanceOf[Input].value
-    val task = document.getElementById("type").asInstanceOf[Input].value
+    val task = document.getElementById("choose").asInstanceOf[Select].value
     val taskType = task match {
       case "日程" => 0
       case "任务" => 1
       case "心愿" => 2
     }
 
+    val startTime = task match {
+      case "日程" => new Date(document.getElementById("startTime").asInstanceOf[Input].value).getTime().toLong - 8 * 60 * 60 * 1000
+      case "任务" => document.getElementById("duringTime").asInstanceOf[Input].value.toLong
+      case "心愿" => 0l
+    }
+
+    val endTime = task match {
+      case "日程" => new Date(document.getElementById("endTime").asInstanceOf[Input].value).getTime().toLong - 8 * 60 * 60 * 1000
+      case "任务" => new Date(document.getElementById("ddlTime").asInstanceOf[Input].value).getTime().toLong - 8 * 60 * 60 * 1000
+      case "心愿" => 0l
+    }
+
     if(content == "" || task == ""){
       JsFunc.alert("  请输入完整内容！")
     }else{
       val imgs = fileName.toString().drop(4).dropRight(1)
-      val data = AddTaskReq(10001l,startTime.toLong, endTime.toLong, content, taskType, imgs).asJson.noSpaces
+      val data = AddTaskReq(Constant.fakeUserId,startTime, endTime.toLong, content, taskType, imgs).asJson.noSpaces
 
       Http.postJsonAndParse[SuccessRsp](Routes.TaskList.addTask, data).map {
         case Right(rsp) =>
@@ -67,21 +81,35 @@ class InputPage(userId : Long) {
 
   def uploadContent() : Unit = {
 
-    val task = document.getElementById("type").asInstanceOf[Input].value
+    val task = document.getElementById("choose").asInstanceOf[Select].value
     val taskType = task match {
       case "日程" => 0
       case "任务" => 1
       case "心愿" => 2
     }
 
-      val data = GetParseTextReq(taskType, "/Users/chenzhishuai/Downloads/agenda1.wav").asJson.noSpaces
+      val data = GetParseTextReq(taskType, "/Users/chenzhishuai/IdeaProjects/noron/audio/agenda1.wav").asJson.noSpaces
 
       Http.postJsonAndParse[GetParseTextRsp](Routes.ContentRoutes.getParseText, data).map {
         case Right(rsp) =>
           if (rsp.errCode == 0) {
             println("111" + rsp.startTime, rsp.endTime, rsp.duringTime, rsp.ddl, rsp.taskType, rsp.taskContent)
-            JsFunc.alert("任务上传成功！")
-            println("任务上传成功")
+            if(rsp.taskType == 0){
+              typeClass := "日程"
+              document.getElementById("content").asInstanceOf[Input].value = rsp.taskContent
+              document.getElementById("startTime").asInstanceOf[Input].value = TimeTool.DateFormatter(new Date(rsp.startTime.get), "yyyy-MM-dd hh:mm")
+              document.getElementById("endTime").asInstanceOf[Input].value = TimeTool.DateFormatter(new Date(rsp.endTime.get), "yyyy-MM-dd hh:mm")
+            }else if(rsp.taskType == 1){
+              typeClass := "任务"
+              document.getElementById("content").asInstanceOf[Input].value = rsp.taskContent
+              document.getElementById("ddlTime").asInstanceOf[Input].value = TimeTool.DateFormatter(new Date(rsp.ddl.get), "yyyy-MM-dd hh:mm")
+              document.getElementById("duringTime").asInstanceOf[Input].value = TimeTool.DateFormatter(new Date(rsp.duringTime.get), "yyyy-MM-dd hh:mm")
+            }else {
+              typeClass := "心愿"
+              document.getElementById("content").asInstanceOf[Input].value = rsp.taskContent
+            }
+            JsFunc.alert("语音解析成功！")
+            println("语音解析成功")
           } else {
             JsFunc.alert("任务上传失败！")
             println(rsp.msg)
@@ -93,7 +121,11 @@ class InputPage(userId : Long) {
 
 val start = Var(false)
   def app: xml.Node = {
-    dom.window.setInterval(() => typeClass := document.getElementById("type").asInstanceOf[Input].value, 300)
+//    dom.window.setInterval(() => typeClass := document.getElementById("type").asInstanceOf[Input].value, 300)
+    <div>
+    <div>
+      {Header.app}
+    </div>
 
     <div>
       <div class="type">
@@ -129,7 +161,12 @@ val start = Var(false)
         </div>
         <div>
           <lable class="label-type">任务类型</lable>
-          <input id="type" class="input-a"></input>
+          <select id="choose" class="input-a" onchange={(e: Event)=> typeClass := e.target.asInstanceOf[Select].value}>
+            <option>选择任务类型</option>
+            <option>日程</option>
+            <option>任务</option>
+            <option>心愿</option>
+          </select>
         </div>
         {typeClass.map {
         t =>
@@ -137,11 +174,11 @@ val start = Var(false)
             <div>
               <div>
                 <lable class="label-type">开始时间</lable>
-                <input id="startTime" class="input-a"></input>
+                <input id="startTime" class="input-a" placeholder="正确格式：2020-07-06 10：00"></input>
               </div>
               <div>
                 <lable class="label-type">结束时间</lable>
-                <input id="endTime" class="input-a"></input>
+                <input id="endTime" class="input-a" placeholder="正确格式：2020-07-06 10：00"></input>
               </div>
             </div>
           }
@@ -149,11 +186,11 @@ val start = Var(false)
             <div>
               <div>
                 <lable class="label-type">截止时间</lable>
-                <input id="startTime" class="input-a"></input>
+                <input id="ddlTime" class="input-a" placeholder="正确格式：2020-07-06 10：00"></input>
               </div>
               <div>
                 <lable class="label-type">所需时间</lable>
-                <input id="endTime" class="input-a"></input>
+                <input id="duringTime" class="input-a" placeholder="正确格式：4h"></input>
               </div>
             </div>
           } else {
@@ -166,9 +203,10 @@ val start = Var(false)
         <button class="confirm" style="background: rgba(255, 64, 75, 1);" onclick={() => uploadContent()}>上传语音</button>
       </div>
       <div style="text-align: center;">
-        <button class="confirm" style="background: rgba(22, 213, 133, 1);">解析确认</button>
+        <button class="confirm" style="background: rgba(22, 213, 133, 1);" onclick={() => inputContent()}>解析确认</button>
       </div>
 
+    </div>
     </div>
   }
 }

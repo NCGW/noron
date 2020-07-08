@@ -18,6 +18,7 @@ import org.ncgw.noron.Routes
 import concurrent.ExecutionContext.Implicits.global
 import org.scalajs.dom
 import org.ncgw.noron.Index
+import org.ncgw.noron.components.Header
 
 import scala.concurrent.Future
 import scala.scalajs.js.Date
@@ -222,6 +223,10 @@ class StartPage(Taskid: String) extends Index {
   def app: xml.Node = {
 //    println("123")
     getINFO(taskid)
+    <div>
+    <div>
+      {Header.app}
+    </div>
     <div id="base" >
       {INFO}
       <div id="u2" class="ax_default primary_button" onclick={()=>start("start")}>
@@ -246,6 +251,7 @@ class StartPage(Taskid: String) extends Index {
         </div>
       </div>
 
+    </div>
     </div>
 
 

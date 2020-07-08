@@ -30,7 +30,7 @@ object PRIUtil {
 //  println("9:00 ",format.parse("9:00").getTime())
 //  println("9:30 ",format.parse("9:30").getTime())
 
-  val TimeList:List[(TimeforWork)]=List(
+  val TimeList:List[TimeforWork]=List(
     TimeforWork(0,4*60*60*1000,format.parse("3:00").getTime(),format.parse("7:00").getTime()),
     TimeforWork(3,2*60*60*1000,format.parse("7:00").getTime(),format.parse("9:00").getTime()),
     TimeforWork(5,(2.5*60*60*1000).toLong,format.parse("9:00").getTime(),format.parse("11:30").getTime()),
