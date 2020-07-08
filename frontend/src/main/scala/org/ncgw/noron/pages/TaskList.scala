@@ -66,7 +66,7 @@ object TaskList {
       <div class="tl-tasktime">
         <p>{TimeTool.DateFormatter(new Date(item.startTime), "hh:mm")}</p>
         <p style="color:#ffc340;font-size:45px;line-height:50px;">TO</p>
-        <p>{TimeTool.DateFormatter(new Date(item.startTime), "hh:mm")}</p>
+        <p>{TimeTool.DateFormatter(new Date(item.endTime), "hh:mm")}</p>
       </div>
       <div class="tl-taskcontent">
         {item.content}
