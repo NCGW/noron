@@ -3,12 +3,15 @@ package org.ncgw.noron.pages
 import mhtml.{Var, emptyHTML}
 import org.ncgw.noron.Routes
 import org.ncgw.noron.utils.{Http, TimeTool}
+
 import concurrent.ExecutionContext.Implicits.global
 import io.circe.generic.auto._
 import io.circe.syntax._
 import org.ncgw.noron.shared.SuccessRsp
 import org.ncgw.noron.shared.TaskListProtocol._
 import org.ncgw.noron.common.Constant
+import org.ncgw.noron.components.Header
+
 import scala.scalajs.js.Date
 import scala.xml.{Elem, Node}
 
@@ -81,6 +84,9 @@ object TaskList {
 
   val taskContent =
     <div>
+      <div>
+        {Header.app}
+      </div>
       {taskList.map{lst =>
         if(lst.isEmpty){
           emptyHTML

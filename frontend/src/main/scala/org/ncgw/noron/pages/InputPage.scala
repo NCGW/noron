@@ -11,6 +11,7 @@ import scala.language.postfixOps
 import org.ncgw.noron.utils.{Http, JsFunc, TimeTool}
 import org.ncgw.noron.Routes
 import org.ncgw.noron.common.Constant
+import org.ncgw.noron.components.Header
 
 import concurrent.ExecutionContext.Implicits.global
 import org.scalajs.dom
@@ -121,6 +122,10 @@ class InputPage(userId : Long) {
 val start = Var(false)
   def app: xml.Node = {
 //    dom.window.setInterval(() => typeClass := document.getElementById("type").asInstanceOf[Input].value, 300)
+    <div>
+    <div>
+      {Header.app}
+    </div>
 
     <div>
       <div class="type">
@@ -185,7 +190,7 @@ val start = Var(false)
               </div>
               <div>
                 <lable class="label-type">所需时间</lable>
-                <input id="duringTime" class="input-a" placeholder="正确格式：4"></input>
+                <input id="duringTime" class="input-a" placeholder="正确格式：4h"></input>
               </div>
             </div>
           } else {
@@ -201,6 +206,7 @@ val start = Var(false)
         <button class="confirm" style="background: rgba(22, 213, 133, 1);" onclick={() => inputContent()}>解析确认</button>
       </div>
 
+    </div>
     </div>
   }
 }
