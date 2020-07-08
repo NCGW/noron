@@ -193,11 +193,11 @@ object PRIUtil {
 //                println("spacetime_p2:",spacetime_p)
                 flag=0
               }
-              else if (time.duringTime >= TN * 0.4  && flag==1) { //case2:空闲时间够安排40%,先安排40%,更新work
+              else if (time.duringTime >= (TN * 0.4)  && flag==1) { //case2:空闲时间够安排40%,先安排40%,更新work
                 println("case2")
                 //加入日程表
                 val st_sche = time.startTime
-                val dt_sche = TN * 0.4.toLong
+                val dt_sche = (TN * 0.4).toLong
                 val et_sche = st_sche + dt_sche
                 schedule :+= ScheduleClass(work.tasktype,work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成40%", work.Image)
                 //更新空闲时间
@@ -228,11 +228,11 @@ object PRIUtil {
                 val ndtb = time.duringTime + spacetime_st(index + 1).duringTime //与后一时间段连接起来
                 val ndtf = time.duringTime + spacetime_st(index - 1).duringTime //与前一时间段连接起来
                 val ndt = time.duringTime + spacetime_st(index - 1).duringTime + spacetime_st(index + 1).duringTime //与前后时间段连接起来
-                if (ndtb >= 0.4 * TN && time.endTime == spacetime_st(index + 1).startTime  && flag==1) { //case3:与后一时间段连接起来达到40%，安排
+                if (ndtb >= (0.4 * TN) && time.endTime == spacetime_st(index + 1).startTime  && flag==1) { //case3:与后一时间段连接起来达到40%，安排
                   println("case3")
                   //加入日程表
                   val st_sche = time.startTime
-                  val dt_sche = TN * 0.4.toLong
+                  val dt_sche = (TN * 0.4).toLong
                   val et_sche = st_sche + dt_sche
                   schedule :+= ScheduleClass(work.tasktype,work.taskid, work.priority, dt_sche, st_sche, et_sche, work.UNprocess, work.content + "-完成40%", work.Image)
                   //更新空闲时间
@@ -267,10 +267,10 @@ object PRIUtil {
                   }
                   flag=0
                 }
-                else if (ndtf >= 0.4 * TN && time.startTime == spacetime_st(index - 1).endTime  && flag==1) { //case4:与前一时间段连接起来达到40%，安排40%
+                else if (ndtf >= (0.4 * TN) && time.startTime == spacetime_st(index - 1).endTime  && flag==1) { //case4:与前一时间段连接起来达到40%，安排40%
                   println("case4")
                   //加入日程表
-                  val dt_sche = TN * 0.4.toLong
+                  val dt_sche = (TN * 0.4).toLong
                   //                    val st_sche=spacetime_st(index-1).endTime-(dt_sche-time.duringTime)
                   val st_sche = time.endTime - dt_sche
                   val et_sche = time.endTime
@@ -305,11 +305,11 @@ object PRIUtil {
                   }
                   flag=0
                 }
-                else if (ndt >= 0.4 * TN && time.startTime == spacetime_st(index - 1).endTime && time.endTime == spacetime_st(index + 1).startTime  && flag==1) {
+                else if (ndt >= (0.4 * TN) && time.startTime == spacetime_st(index - 1).endTime && time.endTime == spacetime_st(index + 1).startTime  && flag==1) {
                   //case5:与前后时间段连接起来达到40%，安排
                   println("case5")
                   //加入日程表
-                  val dt_sche = TN * 0.4.toLong
+                  val dt_sche = (TN * 0.4).toLong
                   val et_sche = spacetime_st(index + 1).endTime
                   //val st_sche=spacetime_st(index-1).endTime-(dt_sche-time.duringTime)
                   val st_sche = et_sche - dt_sche
